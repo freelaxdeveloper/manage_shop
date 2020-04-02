@@ -22,20 +22,8 @@ class UsersTableSeeder extends Seeder
             'name' => 'Test',
             'email' => 'test@gmail.com',
         ], [
-            'password' => bcrypt('11111111'),
+            'password' => bcrypt('testtest'),
         ]);
-
-        $admin = Administrator::updateOrCreate([
-            'username' => 'Admin',
-            'name' => 'Administrator',
-        ], [
-            'password' => bcrypt('admin'),
-        ]);
-
-        $role = Role::where('slug', 'administrator')->first();
-        if ($role) {
-            $admin->roles()->attach($role->id);
-        }
 
     }
 }
