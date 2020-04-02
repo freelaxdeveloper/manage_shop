@@ -8,6 +8,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Show;
 
 use App\Category;
+use Illuminate\Http\Request;
 
 class CategoryController extends AdminController
 {
@@ -107,11 +108,23 @@ class CategoryController extends AdminController
     {
         $form = new Form(new Category);
 
-//        $form->display('id', __('ID'));
-        $form->text(Category::NAME, __('Имя'));
-        $form->text(Category::UNIT, __('Единица измерения'));
-//        $form->display('created_at', __('Created At'));
-//        $form->display('updated_at', __('Updated At'));
+        $form->text(Category::NAME, __('Имя'))->required();
+        $form->text(Category::UNIT, __('Единица измерения'))
+            ->required()
+            ->help('грн., шт. ...');
+
+        $form->footer(function ($footer) {
+
+            // disable `View` checkbox
+            $footer->disableViewCheck();
+
+            // disable `Continue editing` checkbox
+            $footer->disableEditingCheck();
+
+            // disable `Continue Creating` checkbox
+            $footer->disableCreatingCheck();
+
+        });
 
         return $form;
     }

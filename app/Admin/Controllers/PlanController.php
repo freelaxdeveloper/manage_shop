@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Category;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -28,7 +29,7 @@ class PlanController extends AdminController
         $grid = new Grid(new Plan);
 
         $grid->column('id', __('ID'))->sortable();
-        $grid->column('count', __('Количество'))->editable()->sortable();
+        $grid->column('count', __('План'))->editable()->sortable();
         $grid->column('month', __('Месяц'))->editable()->sortable();
         $grid->column('year', __('Год'))->editable()->sortable();
 //        $grid->column('updated_at', __('Updated at'));
@@ -61,15 +62,31 @@ class PlanController extends AdminController
      */
     protected function form()
     {
-        $form = new Form(new Plan);
-        $form->hidden(Plan::CATEGORY_ID)->value(request()->input(Plan::CATEGORY_ID));
+        $categories = Category::get()->pluck('name', 'id')->toArray();
 
-//        $form->display('id', __('ID'));
-        $form->text(Plan::COUNT, __('Количество'));
-        $form->month('month', __('Месяц'))->default(now()->month);
-        $form->year('year', __('Год'))->default(now()->year);
-//        $form->display('created_at', __('Created At'));
-//        $form->display('updated_at', __('Updated At'));
+        $form = new Form(new Plan);
+
+        $form->select(Plan::CATEGORY_ID, 'Категория')
+            ->options($categories)
+            ->default(request()->input(Plan::CATEGORY_ID))
+            ->required();
+
+        $form->text(Plan::COUNT, __('Количество'))->required();
+        $form->month('month', __('Месяц'))->default(now()->month)->required();
+        $form->year('year', __('Год'))->default(now()->year)->required();
+
+        $form->footer(function ($footer) {
+
+            // disable `View` checkbox
+            $footer->disableViewCheck();
+
+            // disable `Continue editing` checkbox
+            $footer->disableEditingCheck();
+
+            // disable `Continue Creating` checkbox
+            $footer->disableCreatingCheck();
+
+        });
 
         return $form;
     }

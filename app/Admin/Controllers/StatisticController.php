@@ -68,8 +68,23 @@ class StatisticController extends AdminController
     {
         $form = new Form(new Statistic);
 
-        $form->text(Statistic::COUNT, __('Количество'));
-        $form->text('created_at', __('Дата'));
+        $form->text(Statistic::COUNT, __('Количество'))->required();
+
+        $form->footer(function ($footer) {
+
+            // disable `View` checkbox
+            $footer->disableViewCheck();
+
+            // disable submit btn
+            $footer->disableSubmit();
+
+            // disable `Continue editing` checkbox
+            $footer->disableEditingCheck();
+
+            // disable `Continue Creating` checkbox
+            $footer->disableCreatingCheck();
+
+        });
 
         return $form;
     }
