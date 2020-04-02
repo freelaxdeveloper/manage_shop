@@ -25,12 +25,12 @@ class CategoriesTableSeeder extends Seeder
 
         Category::insert($categories);
 
-        $category = Category::first();
-        $category->statistics()->create([
-            'count' => 500,
-        ]);
-        $category->statistics()->create([
-            'count' => 1500,
-        ]);
+//        $category = Category::first();
+//        $category->statistics()->create([
+//            'count' => 500,
+//        ]);
+//        $category->statistics()->create([
+//            'count' => 1500,
+//        ]);
     }
 }

@@ -1,8 +1,12 @@
 <template>
     <div>
-        {{ item.name }} (план - <span v-number_format="item.plan"></span>{{ item.unit }})
+        {{ item.name }}
+        ( план -
+        <span v-if="item.forecastService" v-number_format="item.forecastService.plan"></span>
+        <span v-else>не указан</span>
+        <span v-if="item.forecastService">{{ item.unit }}</span>)
         <a
-            v-if="!show_form"
+            v-if="!show_form && isCurrentDate && item.forecastService"
             href="#"
             @click.prevent="show_form = true"
             class="badge badge-info"
@@ -10,7 +14,7 @@
         >
             +
         </a>
-        <span v-else>
+        <span v-else-if="isCurrentDate && item.forecastService">
             <input
                 v-model="money"
                 type="text"
@@ -27,7 +31,7 @@
             (<span v-number_format="item.forecastService.forecastMoney"></span> {{ item.unit }}),<br>
             Рекомендовано: <span v-number_format="item.forecastService.performanceToDay"></span> {{ item.unit }} в день
         </small>
-        <div v-if="show_form">
+        <div v-if="show_form || !isCurrentDate">
             <span
                 v-for="(stat, i) in item.statistics"
                 :key="`stat-item-${i}`"
@@ -57,7 +61,7 @@
   import axios from 'axios'
 
   export default {
-    props: ['item'],
+    props: ['item', 'isCurrentDate'],
     name: "Item",
     data () {
       return {

@@ -19,6 +19,11 @@ class Statistic extends Model
         'day', 'date'
     ];
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
     public function getDayAttribute()
     {
         return $this->created_at->format('d');

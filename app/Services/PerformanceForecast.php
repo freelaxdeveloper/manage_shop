@@ -134,17 +134,28 @@ class PerformanceForecast
     /**
      * @param Category $category
      * @param int|null $forecastMonth
-     * @return PerformanceForecast
+     * @param int|null $forecastYear
+     * @return PerformanceForecast|null
      */
-    public static function container(Category $category, ?int $forecastMonth): PerformanceForecast
+    public static function container(Category $category, ?int $forecastMonth, ?int $forecastYear): ?PerformanceForecast
     {
         $forecastMonth = $forecastMonth ?? Carbon::now()->month;
+        $forecastYear = $forecastYear ?? Carbon::now()->year;
 
-        $category->loadMissing(['statistics' => function ($query) use ($forecastMonth) {
-            $query->whereMonth('created_at', $forecastMonth);
+        $category->loadMissing(['statistics' => function ($query) use ($forecastMonth, $forecastYear) {
+            $query->whereMonth('created_at', $forecastMonth)->whereYear('created_at', $forecastYear);
         }]);
 
-        $plan = $category->plan;
+        $plan = $category->plan()
+            ->where('month', $forecastMonth)
+            ->where('year', $forecastYear)
+            ->first()->count ?? null;
+
+        if (!$plan) {
+            return null;
+        }
+
+//        dd($plan);
         $performance = $category->statistics->pluck('count')->toArray();
 
         return new self($plan, $performance);

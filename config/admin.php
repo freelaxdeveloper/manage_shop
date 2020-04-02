@@ -11,7 +11,7 @@ return [
     | login page.
     |
     */
-    'name' => 'Laravel-admin',
+    'name' => 'Киевстар admin',
 
     /*
     |--------------------------------------------------------------------------
@@ -22,7 +22,7 @@ return [
     | `img` tag, eg '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo' => '<b>Laravel</b> admin',
+    'logo' => '<b>Киевстар</b> admin',
 
     /*
     |--------------------------------------------------------------------------
@@ -34,7 +34,7 @@ return [
     | '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo-mini' => '<b>La</b>',
+    'logo-mini' => '<b>КA</b>',
 
     /*
     |--------------------------------------------------------------------------
@@ -250,7 +250,7 @@ return [
     | Set a default avatar for newly created users.
     |
     */
-    'default_avatar' => '/vendor/laravel-admin/AdminLTE/dist/img/user2-160x160.jpg',
+    'default_avatar' => 'https://shop.kyivstar.ua/bundles/kyivstarreview/img/Kyivstar_2015_logo_-_Brandmark.png?88',
 
     /*
     |--------------------------------------------------------------------------
@@ -276,7 +276,7 @@ return [
     |    "skin-red", "skin-red-light", "skin-black", "skin-black-light".
     |
     */
-    'skin' => 'skin-blue-light',
+    'skin' => 'skin-black',
 
     /*
     |--------------------------------------------------------------------------
@@ -290,7 +290,7 @@ return [
     | "sidebar-mini".
     |
     */
-    'layout' => ['sidebar-mini', 'sidebar-collapse'],
+    'layout' => ['layout-boxed'],
 
     /*
     |--------------------------------------------------------------------------
@@ -321,7 +321,7 @@ return [
     | Whether to display the environment at the footer of each page
     |
     */
-    'show_environment' => true,
+    'show_environment' => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -360,7 +360,7 @@ return [
     | Enable/Disable sidebar menu search
     |--------------------------------------------------------------------------
     */
-    'enable_menu_search' => true,
+    'enable_menu_search' => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -374,7 +374,7 @@ return [
     | The global Grid action display class.
     |--------------------------------------------------------------------------
     */
-    'grid_action_class' => \Encore\Admin\Grid\Displayers\DropdownActions::class,
+    'grid_action_class' => \Encore\Admin\Grid\Displayers\Actions::class,
 
     /*
     |--------------------------------------------------------------------------

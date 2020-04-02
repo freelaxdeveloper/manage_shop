@@ -27,10 +27,9 @@ class StatisticController extends AdminController
     {
         $grid = new Grid(new Statistic);
 
-        $grid->column('id', __('ID'))->sortable();
-        $grid->column('name', __('Имя'))->editable()->sortable();
-        $grid->column('unit', __('Единица измерения'))->editable()->sortable();
-//        $grid->column('updated_at', __('Updated at'));
+        $grid->column(Statistic::COUNT, __('Количество'))->editable()->sortable();
+        $grid->column('date', __('Дата'))->sortable();
+        $grid->column('category.name', __('Категория'))->sortable();
 
         return $grid;
     }
@@ -46,10 +45,16 @@ class StatisticController extends AdminController
         $show = new Show(Statistic::findOrFail($id));
 
         $show->field('id', __('ID'));
-        $show->field('name', __('Имя'));
-        $show->field('unit', __('Единица измерения'));
-        $show->field('created_at', __('Created at'));
-        $show->field('updated_at', __('Updated at'));
+        $show->field(Statistic::COUNT, __('Количество'));
+        $show->field('date', __('Дата'));
+
+        $show->category('Категория', function ($author) {
+
+            $author->setResource('/admin/categories');
+
+            $author->field('name');
+            $author->field('unit');
+        });
 
         return $show;
     }
@@ -63,10 +68,8 @@ class StatisticController extends AdminController
     {
         $form = new Form(new Statistic);
 
-//        $form->display('id', __('ID'));
         $form->text(Statistic::COUNT, __('Количество'));
-//        $form->display('created_at', __('Created At'));
-//        $form->display('updated_at', __('Updated At'));
+        $form->text('created_at', __('Дата'));
 
         return $form;
     }

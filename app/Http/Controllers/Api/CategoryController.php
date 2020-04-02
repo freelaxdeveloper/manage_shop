@@ -17,20 +17,25 @@ class CategoryController extends Controller
     public function index(Request $request): JsonResponse
     {
         Category::$forecastMonth = $request->input('month');
+        Category::$forecastYear = $request->input('year');
 
-        $categories = Category::get();
+        $categories = Category::with('plan')->get();
         $categories->each->setAppends(['forecastService']);
 
-        $sumPlan = $categories->where(Category::UNIT, 'грн.')->sum('plan');
+
+        $sumPlan = $categories->where(Category::UNIT, 'грн.')->sum('forecastService.plan');
         $sumForecast = $categories->where(Category::UNIT, 'грн.')
                             ->sum('forecastService.forecastMoney');
         $sumCurrent = $categories->where(Category::UNIT, 'грн.')
                             ->sum('forecastService.performanceCurrent');
 
-        $percentCurrent = number_format($sumCurrent / $sumPlan * 100, 2, ".", "");
-        $percentForecast = number_format($sumForecast / $sumPlan * 100, 2, ".", "");
+        try {
+            $percentCurrent = number_format($sumCurrent / $sumPlan * 100, 2, ".", "");
+            $percentForecast = number_format($sumForecast / $sumPlan * 100, 2, ".", "");
+        } catch (\Exception $e) {
+            $percentCurrent = $percentForecast = 0;
+        }
 
-//        return response()->json(compact('categories'));
         return response()->json(compact(
             'categories', 'sumPlan', 'sumForecast', 'sumCurrent', 'percentCurrent', 'percentForecast'
         ));

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Services\PerformanceForecast;
@@ -26,13 +27,11 @@ class Category extends Model
 
     public const ID = 'id';
     public const NAME = 'name';
-    public const PLAN = 'plan';
     public const UNIT = 'unit';
     public const EFFICIENCY = 'efficiency';
 
     protected $fillable = [
         self::NAME,
-        self::PLAN,
         self::UNIT,
         self::EFFICIENCY,
     ];
@@ -43,6 +42,7 @@ class Category extends Model
     ];
 
     public static $forecastMonth;
+    public static $forecastYear;
 
     public function scopeMoney($query)
     {
@@ -58,10 +58,26 @@ class Category extends Model
     }
 
     /**
-     * @return array
+     * @return HasOne
      */
-    public function getForecastServiceAttribute(): array
+    public function plan()
     {
-        return PerformanceForecast::container($this, self::$forecastMonth)->toArray();
+        return $this->hasOne(Plan::class);
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function plans()
+    {
+        return $this->hasMany(Plan::class);
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getForecastServiceAttribute(): ?array
+    {
+        return optional(PerformanceForecast::container($this, self::$forecastMonth, self::$forecastYear))->toArray();
     }
 }

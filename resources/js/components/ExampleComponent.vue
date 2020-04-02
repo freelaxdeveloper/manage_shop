@@ -5,9 +5,20 @@
                 <div class="card">
                     <div class="card-header" style="font-size: 19px;">
                         Прогноз на текущий месяц
-                        <h6 class="card-subtitle mb-2 text-muted">
+                        <h6
+                            v-if="isCurrentDate"
+                            class="card-subtitle mb-2 text-muted"
+                        >
                             {{ subtitle }}
                         </h6>
+                        <div v-else>
+                            <button
+                                @click="getMonth = currentMonth, getYear = currentYear"
+                                class="btn btn-primary btn-sm"
+                            >
+                                Сбросить
+                            </button>
+                        </div>
                     </div>
 
                     <div class="card-body" style="font-size: 17px;">
@@ -16,32 +27,42 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <select class="form-control" v-model="getMonth">
-                                            <option value="1">Январь</option>
-                                            <option value="2">Февраль</option>
-                                            <option value="3">Март</option>
-                                            <option value="4">Апрель</option>
-                                            <option value="5">Май</option>
-                                            <option value="6">Июнь</option>
-                                            <option value="7">Июль</option>
-                                            <option value="8">Август</option>
-                                            <option value="9">Сентябрь</option>
-                                            <option value="10">Октябрь</option>
-                                            <option value="11">Ноябрь</option>
-                                            <option value="12">Декабрь</option>
+                                            <option
+                                                v-for="month in months"
+                                                :key="`month-item-${month.id}`"
+                                                :value="month.id"
+                                            >
+                                                {{ month.name }}
+                                            </option>
+                                        </select>
+                                     </div>
+                                    <div class="col-md-3">
+                                        <select class="form-control" v-model="getYear">
+                                            <option
+                                                v-for="year in years"
+                                                :key="`year-item-${year}`"
+                                                :value="year"
+                                            >
+                                                {{ year }}
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
 
                                 <div v-if="items.length">
                                     <div v-for="(item, i) in items" :key="`item-${i}`">
-                                        <Item :item="item" @update-items="fetchItems" />
+                                        <Item
+                                            :item="item"
+                                            :isCurrentDate="isCurrentDate"
+                                            @update-items="fetchItems"
+                                        />
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 Общий план: <span v-number_format="responseItems.sumPlan"></span>грн.<br>
                                 Фактический план: <span v-number_format="responseItems.sumCurrent"></span>грн. <small>({{ responseItems.percentCurrent }}%)</small><br>
-                                Выполенение плана: <span v-number_format="responseItems.sumForecast"></span>грн. <small>({{ responseItems.percentForecast }}%)</small><br>
+                                Прогноз: <span v-number_format="responseItems.sumForecast"></span>грн. <small>({{ responseItems.percentForecast }}%)</small><br>
                             </div>
                         </div>
                     </div>
@@ -63,16 +84,47 @@
           items: [],
           responseItems: {},
           getMonth: (new Date).getMonth() + 1,
+          getYear: (new Date).getFullYear(),
+          currentMonth: (new Date).getMonth() + 1,
+          currentYear: (new Date).getFullYear(),
+          months: [
+            {id: 1, name: 'Январь'},
+            {id: 2, name: 'Февраль'},
+            {id: 3, name: 'Март'},
+            {id: 4, name: 'Апрель'},
+            {id: 5, name: 'Май'},
+            {id: 6, name: 'Июнь'},
+            {id: 7, name: 'Июль'},
+            {id: 8, name: 'Август'},
+            {id: 9, name: 'Сентябрь'},
+            {id: 10, name: 'Октябрь'},
+            {id: 11, name: 'Ноябрь'},
+            {id: 12, name: 'Декабрь'},
+          ],
+        }
+      },
+      computed: {
+        years: function () {
+          return this.range(this.getYear - 2, this.getYear + 2)
+        },
+        isCurrentDate: function () {
+          return this.getMonth === this.currentMonth && this.getYear === this.currentYear;
         }
       },
       watch: {
         getMonth: function () {
           this.fetchItems();
+        },
+        getYear: function () {
+          this.fetchItems();
         }
       },
       methods: {
+        range (start, end) {
+          return Array(end - start + 1).fill().map((_, idx) => start + idx)
+        },
         fetchItems () {
-          axios.get(`/api/categories?month=${this.getMonth}`).then(response => {
+          axios.get(`/api/categories?month=${this.getMonth}&year=${this.getYear}`).then(response => {
             this.responseItems = response.data;
             this.items = this.responseItems.categories;
           })

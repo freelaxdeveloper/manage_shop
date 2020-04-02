@@ -51,18 +51,48 @@ class CategoryController extends AdminController
 //        $show->field('created_at', __('Created at'));
 //        $show->field('updated_at', __('Updated at'));
 
-        $show->statistics('Статистика', function (Grid $stripe) {
-            $stripe->setResource('/admin/statistics');
+        $show->plans('План', function (Grid $plan) {
+            $plan->model()->orderBy('year')->orderBy('month');
 
-            $stripe->disableCreateButton();
-            $stripe->disableActions();
-            $stripe->disableFilter();
-            $stripe->disableRowSelector();
-            $stripe->disablePagination();
-            $stripe->disableExport();
+            $plan->setResource('/admin/plans');
 
-            $stripe->column('count', 'Количество')->editable();
-            $stripe->column('date');
+//            $statistic->disableCreateButton();
+//            $statistic->disableActions();
+            $plan->actions(function (Grid\Displayers\Actions $actions) {
+                $actions->disableView();
+                $actions->disableEdit();
+            });
+            $plan->disableFilter();
+            $plan->disableRowSelector();
+//            $statistic->disablePagination();
+            $plan->disableExport();
+
+            $plan->column('count', 'Количество')->editable();
+            $plan->column('month', 'Месяц')->editable('month');
+            $plan->column('year', 'Год')->editable('year');
+//            $statistic->column('date');
+//            $statistic->column('created_at')->editable('date');
+        });
+
+        $show->statistics('Статистика', function (Grid $statistic) {
+            $statistic->model()->orderBy('created_at');
+
+            $statistic->setResource('/admin/statistics');
+
+            $statistic->disableCreateButton();
+//            $statistic->disableActions();
+            $statistic->actions(function (Grid\Displayers\Actions $actions) {
+                $actions->disableView();
+                $actions->disableEdit();
+            });
+            $statistic->disableFilter();
+            $statistic->disableRowSelector();
+//            $statistic->disablePagination();
+            $statistic->disableExport();
+
+            $statistic->column('count', 'Количество')->editable();
+            $statistic->column('date');
+            $statistic->column('created_at')->editable('date');
         });
 
         return $show;
