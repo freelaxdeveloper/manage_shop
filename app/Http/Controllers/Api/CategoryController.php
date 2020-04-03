@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Category;
 use App\Http\Controllers\Controller;
+use App\Services\PlanSchedule;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -22,19 +23,9 @@ class CategoryController extends Controller
         $categories = Category::with('plan')->get();
         $categories->each->setAppends(['forecastService']);
 
+        $planSchedule = PlanSchedule::container($categories)->toArray();
 
-        $sumPlan = $categories->where(Category::UNIT, 'грн.')->sum('forecastService.plan');
-        $sumForecast = $categories->where(Category::UNIT, 'грн.')
-                            ->sum('forecastService.forecastMoney');
-        $sumCurrent = $categories->where(Category::UNIT, 'грн.')
-                            ->sum('forecastService.performanceCurrent');
-
-        try {
-            $percentCurrent = number_format($sumCurrent / $sumPlan * 100, 2, ".", "");
-            $percentForecast = number_format($sumForecast / $sumPlan * 100, 2, ".", "");
-        } catch (\Exception $e) {
-            $percentCurrent = $percentForecast = 0;
-        }
+        extract($planSchedule);
 
         return response()->json(compact(
             'categories', 'sumPlan', 'sumForecast', 'sumCurrent', 'percentCurrent', 'percentForecast'

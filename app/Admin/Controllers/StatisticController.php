@@ -69,6 +69,7 @@ class StatisticController extends AdminController
         $form = new Form(new Statistic);
 
         $form->text(Statistic::COUNT, __('Количество'))->required();
+        $form->date('created_at', __('Дата'))->required();
 
         $form->footer(function ($footer) {
 
@@ -76,7 +77,7 @@ class StatisticController extends AdminController
             $footer->disableViewCheck();
 
             // disable submit btn
-            $footer->disableSubmit();
+//            $footer->disableSubmit();
 
             // disable `Continue editing` checkbox
             $footer->disableEditingCheck();

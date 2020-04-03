@@ -2,17 +2,20 @@
 
 namespace App\Admin\Controllers;
 
+use App\Category;
 use App\Http\Controllers\Controller;
+use App\Services\ChartPlanScheduleService;
+use App\Services\PlanSchedule;
 use Encore\Admin\Controllers\Dashboard;
 use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Layout\Row;
+use Encore\Admin\Widgets\Box;
 
 class HomeController extends Controller
 {
-    public function index(Content $content)
-    {
-        return redirect('/admin/categories');
+//    public function index(Content $content)
+//    {
 //        return $content
 //            ->title('Dashboard')
 //            ->description('Description...')
@@ -31,5 +34,18 @@ class HomeController extends Controller
 //                    $column->append(Dashboard::dependencies());
 //                });
 //            });
+//    }
+
+    public function index(Content $content)
+    {
+        $data = ChartPlanScheduleService::getInstanse()->toJson();
+        $title = 'Выполнение общего пдана за ' . date('Y') . ' год';
+
+        return $content
+            ->header('Выполнение общего плана')
+            ->body(new Box('', view('admin.chartjs', [
+                'datasets' => $data,
+                'title' => $title,
+            ])));
     }
 }

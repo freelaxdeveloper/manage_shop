@@ -62,7 +62,7 @@ return [
 
         'namespace' => 'App\\Admin\\Controllers',
 
-        'middleware' => ['web', 'admin'],
+        'middleware' => ['web', 'admin', 'admin.lock'],
     ],
 
     /*
@@ -396,6 +396,10 @@ return [
     |
     */
     'extensions' => [
+        'chartjs' => [
 
+            // Set to `false` if you want to disable this extension
+            'enable' => true,
+        ]
     ],
 ];

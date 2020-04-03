@@ -113,6 +113,9 @@ class CategoryController extends AdminController
             ->required()
             ->help('грн., шт. ...');
 
+        $form->color('color', 'Цвет на графике')->rgba();
+        $form->mobile();
+
         $form->footer(function ($footer) {
 
             // disable `View` checkbox

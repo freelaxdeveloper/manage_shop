@@ -6,6 +6,7 @@ namespace App\Services;
 use App\{
     Category, Statistic
 };
+use App\Ttraits\AttributesToArray;
 use Carbon\Carbon;
 
 /**
@@ -14,11 +15,14 @@ use Carbon\Carbon;
  */
 class PerformanceForecast
 {
+    use AttributesToArray;
+
     public $plan; // план
     public $performance; // производительность
     public $toDayNumber; // текущее число
     public $daysInMonth; // количество дней в этом месяце
     public $forecast; // прогноз
+    public $currentlyCompleted; // на текущий момент выполнено
 
     public function __construct(int $plan, array $performance)
     {
@@ -30,15 +34,17 @@ class PerformanceForecast
         $this->toDayNumber = $catbon->day;
         $this->daysInMonth = $catbon->daysInMonth;
 
-        $this->forecast = $this->seerHelp();
+        $this->forecast = $this->seerHelp('getForecastMoney');
+        $this->currentlyCompleted = $this->seerHelp('getPerformanceCurrent');
     }
 
     /**
+     * @param string $methodName
      * @return float
      */
-    public function seerHelp(): float
+    public function seerHelp(string $methodName): float
     {
-        $forecastMoney = $this->getForecastMoney();
+        $forecastMoney = $this->{$methodName}();
         if (!$forecastMoney) {
             return 0;
         }
@@ -59,25 +65,6 @@ class PerformanceForecast
         $sum = $current + $forecast;
 
         return $sum;
-    }
-
-    /**
-     * @return array
-     */
-    public function toArray(): array
-    {
-        $data = get_object_vars($this);
-        $methods = get_class_methods(self::class);
-
-        foreach ($methods as $method) {
-            if (strpos($method, 'get') !== false) {
-                $key = lcfirst(str_replace('get', '', $method));
-
-                $data[$key] = $this->{$method}();
-            }
-        }
-
-        return $data;
     }
 
     /**

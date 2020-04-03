@@ -28,11 +28,13 @@ class Category extends Model
     public const ID = 'id';
     public const NAME = 'name';
     public const UNIT = 'unit';
+    public const COLOR = 'color';
     public const EFFICIENCY = 'efficiency';
 
     protected $fillable = [
         self::NAME,
         self::UNIT,
+        self::COLOR,
         self::EFFICIENCY,
     ];
 
