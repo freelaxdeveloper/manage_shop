@@ -39,7 +39,7 @@ class HomeController extends Controller
     public function index(Content $content)
     {
         $data = ChartPlanScheduleService::getInstanse()->toJson();
-        $title = 'Выполнение общего пдана за ' . date('Y') . ' год';
+        $title = 'Выполнение общего плана за ' . date('Y') . ' год';
 
         return $content
             ->header('Выполнение общего плана')
