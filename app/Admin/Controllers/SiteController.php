@@ -30,7 +30,6 @@ class SiteController extends AdminController
 
         $grid->column('id', __('ID'))->sortable();
         $grid->column('name', __('Имя'))->editable()->sortable();
-        $grid->column('unit', __('Единица измерения'))->editable()->sortable();
 //        $grid->column('updated_at', __('Updated at'));
 
         return $grid;
