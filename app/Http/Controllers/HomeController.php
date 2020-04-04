@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Site;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 
@@ -37,6 +38,8 @@ class HomeController extends Controller
 
         $subtitle = "До конца месяца осталось: {$daysLeft} {$choice}";
 
-        return view('home', compact('subtitle'));
+        $sitename = optional(Site::find(session()->get('site_id')))->name;
+
+        return view('home', compact('subtitle', 'sitename'));
     }
 }

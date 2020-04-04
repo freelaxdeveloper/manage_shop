@@ -5,11 +5,16 @@
                 <div class="card">
                     <div class="card-header" style="font-size: 19px;">
                         Прогноз на текущий месяц
+                        <div
+                            class="float-md-right card-subtitle mb-2 text-muted"
+                            style="font-size: 15px;"
+                        >{{sitename}}</div>
                         <h6
                             v-if="isCurrentDate"
                             class="card-subtitle mb-2 text-muted"
                         >
                             {{ subtitle }}
+
                         </h6>
                         <div v-else>
                             <button
@@ -19,6 +24,7 @@
                                 Сбросить
                             </button>
                         </div>
+
                     </div>
 
                     <div class="card-body" style="font-size: 17px;">
@@ -78,7 +84,7 @@
 
     export default {
       components: {Item},
-      props: ['subtitle'],
+      props: ['subtitle', 'sitename'],
       data () {
         return {
           items: [],
