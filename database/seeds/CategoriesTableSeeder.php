@@ -15,12 +15,12 @@ class CategoriesTableSeeder extends Seeder
     public function run()
     {
         $categories = [
-            [Category::NAME => 'Телефония', Category::PLAN => 160000, Category::EFFICIENCY => 15],
-            [Category::NAME => 'Аксессуары', Category::PLAN => 38000, Category::EFFICIENCY => 20],
-            [Category::NAME => 'Смарт гаджеты', Category::PLAN => 6000, Category::EFFICIENCY => 20],
-            [Category::NAME => 'Услуги', Category::PLAN => 24000, Category::EFFICIENCY => 15],
-            [Category::NAME => 'Сетевое оборудование', Category::PLAN => 70, Category::EFFICIENCY => 20],
-            [Category::NAME => 'НКП', Category::PLAN => 14, Category::EFFICIENCY => 10],
+            [Category::NAME => 'Телефония', Category::EFFICIENCY => 15],
+            [Category::NAME => 'Аксессуары', Category::EFFICIENCY => 20],
+            [Category::NAME => 'Смарт гаджеты', Category::EFFICIENCY => 20],
+            [Category::NAME => 'Услуги', Category::EFFICIENCY => 15],
+            [Category::NAME => 'Сетевое оборудование', Category::EFFICIENCY => 20],
+            [Category::NAME => 'НКП', Category::EFFICIENCY => 10],
         ];
 
         Category::insert($categories);

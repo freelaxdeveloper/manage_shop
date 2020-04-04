@@ -2,6 +2,8 @@
 
 namespace App\Admin\Controllers;
 
+use App\Plan;
+use App\Site;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -28,9 +30,8 @@ class CategoryController extends AdminController
     {
         $grid = new Grid(new Category);
 
-        $grid->column('id', __('ID'))->sortable();
-        $grid->column('name', __('Имя'))->editable()->sortable();
-        $grid->column('unit', __('Единица измерения'))->editable()->sortable();
+        $grid->column('site.name', __('Сайт'));
+        $grid->column('name', __('Название'))->editable()->sortable();
 //        $grid->column('updated_at', __('Updated at'));
 
         return $grid;
@@ -106,7 +107,14 @@ class CategoryController extends AdminController
      */
     protected function form()
     {
+        $sites = Site::get()->pluck('name', 'id')->toArray();
+
         $form = new Form(new Category);
+
+        $form->select(Category::SITE_ID, 'Сайт')
+            ->options($sites)
+            ->default(request()->input(Category::SITE_ID))
+            ->required();
 
         $form->text(Category::NAME, __('Имя'))->required();
         $form->text(Category::UNIT, __('Единица измерения'))
@@ -114,7 +122,6 @@ class CategoryController extends AdminController
             ->help('грн., шт. ...');
 
         $form->color('color', 'Цвет на графике')->rgba();
-        $form->mobile();
 
         $form->footer(function ($footer) {
 

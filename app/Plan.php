@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Plan extends Model
 {
@@ -18,4 +19,38 @@ class Plan extends Model
         self::MONTH,
         self::YEAR,
     ];
+
+    protected $appends = [
+        'month_name',
+    ];
+
+    /**
+     * @return BelongsTo
+     */
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    /**
+     * @return string
+     */
+    public function getMonthNameAttribute(): string
+    {
+        return now()->setMonth($this->attributes[self::MONTH])->monthName;
+    }
+
+//    public function setMonthNameAttribute(): string
+//    {
+//        $this->attributes[self::MONTH] = 12;
+//    }
+//
+//    protected static function boot()
+//    {
+//        parent::boot();
+//
+//        static::saving(function (Plan $media) {
+//            dd($media->monthName);
+//        });
+//    }
 }

@@ -6,6 +6,7 @@ use App\Category;
 use App\Http\Controllers\Controller;
 use App\Services\ChartPlanScheduleService;
 use App\Services\PlanSchedule;
+use App\Site;
 use Encore\Admin\Controllers\Dashboard;
 use Encore\Admin\Layout\Column;
 use Encore\Admin\Layout\Content;
@@ -40,10 +41,11 @@ class HomeController extends Controller
     {
         $data = ChartPlanScheduleService::getInstanse()->toJson();
         $title = 'Выполнение общего плана за ' . date('Y') . ' год';
+        $site = Site::find(session()->get('site_id'));
 
         return $content
             ->header('Выполнение общего плана')
-            ->body(new Box('', view('admin.chartjs', [
+            ->body(new Box("{$site->name}", view('admin.chartjs', [
                 'datasets' => $data,
                 'title' => $title,
             ])));

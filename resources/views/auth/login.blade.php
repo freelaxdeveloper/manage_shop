@@ -40,6 +40,26 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="site" class="col-md-4 col-form-label text-md-right">{{ __('Сайт') }}</label>
+
+                            <div class="col-md-6">
+{{--                                <input id="site" type="text" class="form-control @error('site') is-invalid @enderror" name="site_id" required>--}}
+
+                                <select name="site_id" class="form-control @error('site') is-invalid @enderror">
+                                    @foreach($sites as $site)
+                                        <option value="{{ $site->id }}" @if($site->id == session()->get('site_id')) selected @endif>{{ $site->name }}</option>
+                                    @endforeach
+                                </select>
+
+                                @error('site')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <div class="col-md-6 offset-md-4">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>

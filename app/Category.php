@@ -5,11 +5,13 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Services\PerformanceForecast;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * @property HasMany statistics
@@ -30,6 +32,7 @@ class Category extends Model
     public const UNIT = 'unit';
     public const COLOR = 'color';
     public const EFFICIENCY = 'efficiency';
+    public const SITE_ID = 'site_id';
 
     protected $fillable = [
         self::NAME,
@@ -45,6 +48,22 @@ class Category extends Model
 
     public static $forecastMonth;
     public static $forecastYear;
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::addGlobalScope('site', function (Builder $builder) {
+            $site_id = session()->get('site_id');
+
+            $builder->when($site_id, function (Builder $builder) use ($site_id) {
+                $builder->where(self::SITE_ID, $site_id)->orWhere(self::SITE_ID, null);
+            });
+        });
+    }
 
     public function scopeMoney($query)
     {
@@ -73,6 +92,14 @@ class Category extends Model
     public function plans()
     {
         return $this->hasMany(Plan::class);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function site()
+    {
+        return $this->belongsTo(Site::class);
     }
 
     /**

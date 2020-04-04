@@ -27,11 +27,12 @@ class PlanController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new Plan);
+        $grid->model()->whereHas('category');
 
-        $grid->column('id', __('ID'))->sortable();
+        $grid->column('category.name', __('Категория'));
         $grid->column('count', __('План'))->editable()->sortable();
-        $grid->column('month', __('Месяц'))->editable()->sortable();
-        $grid->column('year', __('Год'))->editable()->sortable();
+        $grid->column('month_name', __('Месяц'));
+        $grid->column('year', __('Год'))->editable('year')->sortable();
 //        $grid->column('updated_at', __('Updated at'));
 
         return $grid;
@@ -49,7 +50,7 @@ class PlanController extends AdminController
 
         $show->field('id', __('ID'));
         $show->field('count', __('Количество'));
-        $show->field('month', __('Месяц'));
+        $show->field('month_name', __('Месяц'));
         $show->field('year', __('Год'));
 
         return $show;
