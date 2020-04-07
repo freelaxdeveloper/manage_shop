@@ -91,6 +91,7 @@ class StatisticController extends AdminController
             ->required();
         $form->text(Statistic::COUNT, __('Количество'))->required();
         $form->date('date', __('Дата'))->required();
+        $form->date('created_at', __('Дата'));
 
         $form->footer(function ($footer) {
 
