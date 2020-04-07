@@ -44,8 +44,17 @@
                 <span v-number_format="stat.count"></span>{{ item.unit }}
             </span>
         </div>
-        <div class="progress">
-            <div class="progress-bar" role="progressbar" :style="`width: ${item.forecastService.currentlyCompleted}%;`" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+        <div class="progress" v-if="item.forecastService">
+            <div
+                class="progress-bar"
+                role="progressbar"
+                :style="`width: ${item.forecastService.currentlyCompleted}%;`"
+                :aria-valuenow="item.forecastService.currentlyCompleted"
+                aria-valuemin="0"
+                aria-valuemax="100"
+            >
+                {{ item.forecastService.currentlyCompleted }}%
+            </div>
         </div>
         <hr>
     </div>
