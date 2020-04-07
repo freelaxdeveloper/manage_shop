@@ -2,6 +2,8 @@
 
 namespace App\Admin\Controllers;
 
+use App\Category;
+use App\Plan;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -60,6 +62,18 @@ class StatisticController extends AdminController
         return $show;
     }
 
+    public function store()
+    {
+        $data = request()->only(
+            (new Statistic())->getFillable()
+        );
+        $data['created_at'] = request()->input('date');
+
+        $data = [$data];
+
+        Statistic::insert($data);
+    }
+
     /**
      * Make a form builder.
      *
@@ -67,10 +81,16 @@ class StatisticController extends AdminController
      */
     protected function form()
     {
+        $categories = Category::get()->pluck('name', 'id')->toArray();
+
         $form = new Form(new Statistic);
 
+        $form->select(Statistic::CATEGORY_ID, 'Категория')
+            ->options($categories)
+            ->default(request()->input(Statistic::CATEGORY_ID))
+            ->required();
         $form->text(Statistic::COUNT, __('Количество'))->required();
-        $form->date('created_at', __('Дата'))->required();
+        $form->date('date', __('Дата'))->required();
 
         $form->footer(function ($footer) {
 
