@@ -34,9 +34,7 @@ class AuthController extends BaseAuthController
     {
         parent::postLogin($request);
 
-        session([
-            'site_id' => $request->input('site_id'),
-        ]);
+        site()->set($request->input('site_id'));
 
         return back()->withInput()->withErrors([
             $this->username() => $this->getFailedLoginMessage(),

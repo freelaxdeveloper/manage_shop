@@ -49,9 +49,7 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        session([
-            'site_id' => $request->input('site_id'),
-        ]);
+        site()->set($request->input('site_id'));
     }
 
 }

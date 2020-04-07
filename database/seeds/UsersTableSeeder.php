@@ -19,10 +19,17 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         User::updateOrCreate([
-            'name' => 'Test',
+            'name' => 'Alexey',
+            'email' => 'alexey@gmail.com',
+        ], [
+            'password' => bcrypt('1111qwer'),
+        ]);
+
+        User::updateOrCreate([
+            'name' => 'test',
             'email' => 'test@gmail.com',
         ], [
-            'password' => bcrypt('testtest'),
+            'password' => bcrypt('qwerqwer'),
         ]);
 
     }

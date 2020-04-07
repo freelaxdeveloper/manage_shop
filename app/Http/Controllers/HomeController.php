@@ -28,17 +28,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $catbon = now();
-
-        $toDayNumber = $catbon->day;
-        $daysInMonth = $catbon->daysInMonth;
-        $daysLeft = $daysInMonth - $toDayNumber + 1;
-
+        $daysLeft = now()->daysInMonth - now()->day + 1;
         $choice = Lang::choice('день|дня|дней', $daysLeft);
-
         $subtitle = "До конца месяца осталось: {$daysLeft} {$choice}";
-
-        $sitename = optional(Site::find(session()->get('site_id')))->name;
+        $sitename = site()->name;
 
         return view('home', compact('subtitle', 'sitename'));
     }

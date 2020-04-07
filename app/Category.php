@@ -38,6 +38,7 @@ class Category extends Model
         self::NAME,
         self::UNIT,
         self::COLOR,
+        self::SITE_ID,
         self::EFFICIENCY,
     ];
 
@@ -57,7 +58,7 @@ class Category extends Model
     protected static function booted()
     {
         static::addGlobalScope('site', function (Builder $builder) {
-            $site_id = session()->get('site_id');
+            $site_id = site()->getId();
 
             $builder->when($site_id, function (Builder $builder) use ($site_id) {
                 $builder->where(self::SITE_ID, $site_id)->orWhere(self::SITE_ID, null);

@@ -8,7 +8,20 @@
                         <div
                             class="float-md-right card-subtitle mb-2 text-muted"
                             style="font-size: 15px;"
-                        >{{sitename}}</div>
+                        >
+                            <select
+                                class="form-control"
+                                v-model="site_id"
+                            >
+                                <option
+                                    v-for="(site, i) in sites"
+                                    :key="`site-${i}`"
+                                    :value="site.id"
+                                >
+                                    {{ site.name }}
+                                </option>
+                            </select>
+                        </div>
                         <h6
                             v-if="isCurrentDate"
                             class="card-subtitle mb-2 text-muted"
@@ -87,6 +100,8 @@
       props: ['subtitle', 'sitename'],
       data () {
         return {
+          site_id: 0,
+          sites: [],
           items: [],
           responseItems: {},
           getMonth: (new Date).getMonth() + 1,
@@ -123,9 +138,27 @@
         },
         getYear: function () {
           this.fetchItems();
+        },
+        site_id: function (val) {
+          this.changeSite(val)
         }
       },
       methods: {
+        changeSite (site_id) {
+          axios.get('/api/sites/change?site_id=' + site_id).then(() => {
+            this.fetchItems();
+          })
+        },
+        fetchSites () {
+          axios.get('/api/sites').then(response => {
+            this.sites = response.data.sites
+          })
+        },
+        fetchCurrentSite () {
+          axios.get('/api/sites/current').then(response => {
+            this.site_id = response.data.site.id
+          })
+        },
         range (start, end) {
           return Array(end - start + 1).fill().map((_, idx) => start + idx)
         },
@@ -138,6 +171,8 @@
       },
       mounted() {
         this.fetchItems();
+        this.fetchSites();
+        this.fetchCurrentSite();
       }
     }
 </script>

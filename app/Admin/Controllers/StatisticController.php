@@ -26,6 +26,7 @@ class StatisticController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new Statistic);
+        $grid->model()->whereHas('category');
 
         $grid->column(Statistic::COUNT, __('Количество'))->editable()->sortable();
         $grid->column('date', __('Дата'))->sortable();

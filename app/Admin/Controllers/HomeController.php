@@ -41,13 +41,16 @@ class HomeController extends Controller
     {
         $data = ChartPlanScheduleService::getInstanse()->toJson();
         $title = 'Выполнение общего плана за ' . date('Y') . ' год';
-        $site = Site::find(session()->get('site_id'));
+        $sites = Site::get();
+        $site = site()->getSite();
 
         return $content
             ->header('Выполнение общего плана')
-            ->body(new Box("{$site->name}", view('admin.chartjs', [
+            ->body(new Box("{$site['name']}", view('admin.chartjs', [
                 'datasets' => $data,
                 'title' => $title,
+                'currentSite' => $site,
+                'sites' => $sites,
             ])));
     }
 }

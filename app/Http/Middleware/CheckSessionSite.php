@@ -18,9 +18,9 @@ class CheckSessionSite
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (!session()->has('site_id')) {
+        if (!site()->getId()) {
             if ($site = Site::select(['id'])->first()) {
-                session(['site_id' => $site->id]);
+                site()->set($site->id);
             }
         }
 

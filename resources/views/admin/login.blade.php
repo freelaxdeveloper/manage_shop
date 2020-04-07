@@ -63,7 +63,7 @@
 
                 <select name="site_id" class="form-control">
                     @foreach($sites as $site)
-                        <option value="{{ $site->id }}" @if($site->id == session()->get('site_id')) selected @endif>{{ $site->name }}</option>
+                        <option value="{{ $site->id }}" @if($site->id == site()->getId()) selected @endif>{{ $site->name }}</option>
                     @endforeach
                 </select>
 

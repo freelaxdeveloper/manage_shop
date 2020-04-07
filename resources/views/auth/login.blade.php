@@ -4,8 +4,14 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            @if( session()->has('error') )
+                <div class="alert alert-danger" role="alert">
+                    {{ session()->get('error') }}
+                </div>
+            @endif
             <div class="card">
                 <div class="card-header">{{ __('Login') }}</div>
+
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
@@ -40,14 +46,14 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="site" class="col-md-4 col-form-label text-md-right">{{ __('Сайт') }}</label>
+                            <label for="site" class="col-md-4 col-form-label text-md-right">{{ __('Site') }}</label>
 
                             <div class="col-md-6">
 {{--                                <input id="site" type="text" class="form-control @error('site') is-invalid @enderror" name="site_id" required>--}}
 
                                 <select name="site_id" class="form-control @error('site') is-invalid @enderror">
                                     @foreach($sites as $site)
-                                        <option value="{{ $site->id }}" @if($site->id == session()->get('site_id')) selected @endif>{{ $site->name }}</option>
+                                        <option value="{{ $site->id }}" @if($site->id == site()->getId()) selected @endif>{{ $site->name }}</option>
                                     @endforeach
                                 </select>
 

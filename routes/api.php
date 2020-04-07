@@ -21,4 +21,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::namespace('Api')->group(function () {
     Route::apiResource('/categories', 'CategoryController');
     Route::post('/statistics', 'StatisticController@makeMoney');
+
+    Route::get('/sites', 'SiteController@index');
+    Route::get('/sites/current', 'SiteController@currentSite');
+    Route::get('/sites/change', 'SiteController@changeSite');
 });

@@ -16,8 +16,9 @@ class SitesTableSeeder extends Seeder
     public function run()
     {
         $sites = [
-            [Site::NAME => 'Сайт тест'],
-            [Site::NAME => 'Сайт тест 2'],
+            [Site::NAME => '№1'],
+            [Site::NAME => '№2'],
+            [Site::NAME => '№3'],
         ];
 
         Site::insert($sites);

@@ -30,7 +30,7 @@ class CategoryController extends AdminController
     {
         $grid = new Grid(new Category);
 
-        $grid->column('site.name', __('Сайт'));
+//        $grid->column('site.name', __('Сайт'));
         $grid->column('name', __('Название'))->editable()->sortable();
 //        $grid->column('updated_at', __('Updated at'));
 

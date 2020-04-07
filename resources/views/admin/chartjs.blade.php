@@ -30,3 +30,19 @@
     });
   });
 </script>
+
+<label for="formControlSelect">Выбрать другой сайт</label>
+<select
+    class="form-control"
+    id="formControlSelect"
+    onchange="this.options[this.selectedIndex].value && (window.location = `?site_id=${this.options[this.selectedIndex].value}`);"
+>
+    @foreach ($sites as $site)
+        <option
+            value="{{ $site->id }}"
+            @if ($site->id === $currentSite['id']) selected @endif
+        >
+            {{ $site->name }}
+        </option>
+    @endforeach
+</select>
