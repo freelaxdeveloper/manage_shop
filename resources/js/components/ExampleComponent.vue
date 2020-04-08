@@ -82,6 +82,7 @@
                                 Общий план: <span v-number_format="responseItems.sumPlan"></span>грн.<br>
                                 Фактический план: <span v-number_format="responseItems.sumCurrent"></span>грн. <small>({{ responseItems.percentCurrent }}%)</small><br>
                                 Прогноз: <span v-number_format="responseItems.sumForecast"></span>грн. <small>({{ responseItems.percentForecast }}%)</small><br>
+                                Общий КПД: <span v-number_format="responseItems.sumEfficiency"></span>%<br>
                             </div>
                         </div>
                     </div>

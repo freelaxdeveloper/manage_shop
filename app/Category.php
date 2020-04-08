@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,7 +9,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-use App\Services\PerformanceForecast;
+use App\Services\{
+    PerformanceForecast, EfficiencyService
+};
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -109,5 +110,13 @@ class Category extends Model
     public function getForecastServiceAttribute(): ?array
     {
         return optional(PerformanceForecast::container($this, self::$forecastMonth, self::$forecastYear))->toArray();
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getEfficiencyServiceAttribute(): ?array
+    {
+        return optional(EfficiencyService::container($this))->toArray();
     }
 }

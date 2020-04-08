@@ -1,5 +1,12 @@
 <template>
     <div>
+        <div
+            class="float-md-right card-subtitle mb-2 text-muted"
+            style="font-size: 15px;"
+            v-if="item.efficiencyService && item.efficiency"
+        >
+            Факт. КПД: {{ item.efficiencyService.calculateEfficiency }}%
+        </div>
         {{ item.name }}
         ( план -
         <span v-if="item.forecastService" v-number_format="item.forecastService.plan"></span>
@@ -14,7 +21,10 @@
         >
             +
         </a>
-        <span v-else-if="isCurrentDate && item.forecastService">
+        <div
+            v-else-if="isCurrentDate && item.forecastService"
+            style="margin-bottom: -25px;"
+        >
             <input
                 v-model="money"
                 type="text"
@@ -24,12 +34,13 @@
             >
             <button @click="makeMoney" class="btn btn-primary btn-sm">Добавить</button>
             <a href="#" @click.prevent="close" class="btn btn-light">Отмена</a>
-        </span><br/>
+        </div><br/>
         <small v-if="item.forecastService">
             Факт <span v-number_format="item.forecastService.performanceCurrent"></span> {{ item.unit }},
             Прогноз {{ item.forecastService.forecast }}%
             (<span v-number_format="item.forecastService.forecastMoney"></span> {{ item.unit }}),<br>
-            Рекомендовано: <span v-number_format="item.forecastService.performanceToDay"></span> {{ item.unit }} в день
+            Рекомендовано: <span v-number_format="item.forecastService.performanceToDay"></span> {{ item.unit }} в день,
+            Вес КПД: {{ item.efficiency }}%
         </small>
         <div v-if="show_form || !isCurrentDate">
             <span
@@ -46,7 +57,7 @@
         </div>
         <div class="progress" v-if="item.forecastService">
             <div
-                class="progress-bar"
+                :class="`progress-bar ${progressColor}`"
                 role="progressbar"
                 :style="`width: ${item.forecastService.currentlyCompleted}%;`"
                 :aria-valuenow="item.forecastService.currentlyCompleted"
@@ -67,6 +78,9 @@
         background-color: aliceblue;
         margin: 3px;
     }
+    .bg-warning {
+        color: #6b5f5f;
+    }
 </style>
 
 <script>
@@ -79,6 +93,21 @@
       return {
         show_form: false,
         money: '',
+      }
+    },
+    computed: {
+      progressColor: function () {
+        if (!this.item.forecastService) {
+          return 'bg-primary';
+        }
+        if (this.item.forecastService.forecast > 75) {
+          return 'bg-success';
+        }
+        if (this.item.forecastService.forecast > 50) {
+          return 'bg-warning';
+        }
+
+        return 'bg-danger';
       }
     },
     methods: {

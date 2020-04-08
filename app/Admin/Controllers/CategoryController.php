@@ -2,7 +2,6 @@
 
 namespace App\Admin\Controllers;
 
-use App\Plan;
 use App\Site;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
@@ -10,7 +9,6 @@ use Encore\Admin\Grid;
 use Encore\Admin\Show;
 
 use App\Category;
-use Illuminate\Http\Request;
 
 class CategoryController extends AdminController
 {
@@ -30,9 +28,10 @@ class CategoryController extends AdminController
     {
         $grid = new Grid(new Category);
 
-//        $grid->column('site.name', __('Сайт'));
-        $grid->column('name', __('Название'))->editable()->sortable();
-//        $grid->column('updated_at', __('Updated at'));
+        $sumEfficiency = Category::sum(Category::EFFICIENCY);
+
+        $grid->column(Category::NAME, __('Название'))->editable()->sortable();
+        $grid->column(Category::EFFICIENCY, __("Вес КПД (:value%)", ['value' => $sumEfficiency]))->editable()->sortable();
 
         return $grid;
     }
@@ -117,6 +116,7 @@ class CategoryController extends AdminController
             ->required();
 
         $form->text(Category::NAME, __('Имя'))->required();
+        $form->text(Category::EFFICIENCY, __('Вес КПД %'))->required();
         $form->text(Category::UNIT, __('Единица измерения'))
             ->required()
             ->help('грн., шт. ...');

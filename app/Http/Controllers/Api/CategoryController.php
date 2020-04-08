@@ -21,14 +21,22 @@ class CategoryController extends Controller
         Category::$forecastYear = $request->input('year');
 
         $categories = Category::with('plan')->get();
-        $categories->each->setAppends(['forecastService']);
+        $categories->each->setAppends(['forecastService', 'efficiencyService']);
 
         $planSchedule = PlanSchedule::container($categories)->toArray();
+
+        $sumEfficiency = $categories->sum('efficiencyService.calculateEfficiency');
 
         extract($planSchedule);
 
         return response()->json(compact(
-            'categories', 'sumPlan', 'sumForecast', 'sumCurrent', 'percentCurrent', 'percentForecast'
+            'categories',
+            'sumPlan',
+            'sumForecast',
+            'sumCurrent',
+            'percentCurrent',
+            'percentForecast',
+            'sumEfficiency'
         ));
     }
 
