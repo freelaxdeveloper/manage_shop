@@ -5,23 +5,6 @@
                 <div class="card">
                     <div class="card-header" style="font-size: 19px;">
                         Прогноз на текущий месяц
-                        <div
-                            class="float-md-right card-subtitle mb-2 text-muted"
-                            style="font-size: 15px;"
-                        >
-                            <select
-                                class="form-control"
-                                v-model="site_id"
-                            >
-                                <option
-                                    v-for="(site, i) in sites"
-                                    :key="`site-${i}`"
-                                    :value="site.id"
-                                >
-                                    {{ site.name }}
-                                </option>
-                            </select>
-                        </div>
                         <h6
                             v-if="isCurrentDate"
                             class="card-subtitle mb-2 text-muted"
@@ -42,8 +25,25 @@
 
                     <div class="card-body" style="font-size: 17px;">
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="row">
+                            <div class="col-md-12">
+                                <div
+                                    class="float-md-right card-subtitle mb-2 text-muted"
+                                    style="font-size: 15px;"
+                                >
+                                    <select
+                                        class="form-control"
+                                        v-model="site_id"
+                                    >
+                                        <option
+                                            v-for="(site, i) in sites"
+                                            :key="`site-${i}`"
+                                            :value="site.id"
+                                        >
+                                            {{ site.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="row" style="margin-bottom: 15px;">
                                     <div class="col-md-3">
                                         <select class="form-control" v-model="getMonth">
                                             <option
@@ -54,7 +54,7 @@
                                                 {{ month.name }}
                                             </option>
                                         </select>
-                                     </div>
+                                    </div>
                                     <div class="col-md-3">
                                         <select class="form-control" v-model="getYear">
                                             <option
@@ -67,6 +67,10 @@
                                         </select>
                                     </div>
                                 </div>
+                                <hr class="hr-style">
+                            </div>
+
+                            <div class="col-md-6">
 
                                 <div v-if="items.length">
                                     <div v-for="(item, i) in items" :key="`item-${i}`">
@@ -79,10 +83,12 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                Общий план: <span v-number_format="responseItems.sumPlan"></span>грн.<br>
-                                Фактический план: <span v-number_format="responseItems.sumCurrent"></span>грн. <small>({{ responseItems.percentCurrent }}%)</small><br>
-                                Прогноз: <span v-number_format="responseItems.sumForecast"></span>грн. <small>({{ responseItems.percentForecast }}%)</small><br>
-                                Общий КПД: <span v-number_format="responseItems.sumEfficiency"></span>%<br>
+                                <div class="right-col">
+                                    Общий план: <span v-number_format="responseItems.sumPlan"></span>грн.<br>
+                                    Фактический план: <span v-number_format="responseItems.sumCurrent"></span>грн. <small>({{ responseItems.percentCurrent }}%)</small><br>
+                                    Прогноз: <span v-number_format="responseItems.sumForecast"></span>грн. <small>({{ responseItems.percentForecast }}%)</small><br>
+                                    Общий КПД: <span v-number_format="responseItems.sumEfficiency"></span>%<br>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -91,6 +97,24 @@
         </div>
     </div>
 </template>
+
+<style scoped>
+    .hr-style {
+        border : 0;
+        height: 1px;
+        background-image: linear-gradient(to right, rgba(0, 0, 0, 0), #7a7b81, rgba(0, 0, 0, 0));
+    }
+
+    .right-col {
+        color: rgb(102, 102, 103);
+        border: 1px solid #ddd;
+        padding: 13px;
+        border-radius: 10px;
+        font-size: 16px;
+        -webkit-box-shadow: 0px 10px 13px -7px #a0a0a0, 5px 5px 15px 5px rgba(0,0,0,0);
+        box-shadow: 0px 10px 13px -7px #a0a0a0, 5px 5px 15px 5px rgba(0,0,0,0);
+    }
+</style>
 
 <script>
     import axios from 'axios'
