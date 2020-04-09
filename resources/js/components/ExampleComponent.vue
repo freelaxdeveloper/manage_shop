@@ -5,6 +5,17 @@
                 <div class="card">
                     <div class="card-header" style="font-size: 19px;">
                         Прогноз на текущий месяц
+                        <div
+                            v-if="spinner"
+                            class="spinner-grow text-info"
+                            style="width: 3rem; height: 3rem; position: absolute;"
+                            role="status"
+                        >
+                            <span class="sr-only">
+                                Loading...
+                            </span>
+                        </div>
+
                         <h6
                             v-if="isCurrentDate"
                             class="card-subtitle mb-2 text-muted"
@@ -125,6 +136,7 @@
       props: ['subtitle', 'sitename'],
       data () {
         return {
+          spinner: false,
           site_id: 0,
           sites: [],
           items: [],
@@ -188,9 +200,14 @@
           return Array(end - start + 1).fill().map((_, idx) => start + idx)
         },
         fetchItems () {
+          this.spinner = true
           axios.get(`/api/categories?month=${this.getMonth}&year=${this.getYear}`).then(response => {
             this.responseItems = response.data;
             this.items = this.responseItems.categories;
+
+            setTimeout(() => {
+              this.spinner = false
+            }, 500)
           })
         }
       },
