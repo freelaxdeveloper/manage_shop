@@ -28,7 +28,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $daysLeft = now()->daysInMonth - now()->day + 1;
+        $daysLeft = now()->daysInMonth - now()->day;
         $choice = Lang::choice('день|дня|дней', $daysLeft);
         $subtitle = "До конца месяца осталось: {$daysLeft} {$choice}";
         $sitename = site()->name;

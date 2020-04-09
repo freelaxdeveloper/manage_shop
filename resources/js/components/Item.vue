@@ -100,6 +100,9 @@
         if (!this.item.forecastService) {
           return 'bg-primary';
         }
+        if (this.item.forecastService.forecast > 100) {
+          return 'bg-primary';
+        }
         if (this.item.forecastService.forecast > 75) {
           return 'bg-success';
         }
