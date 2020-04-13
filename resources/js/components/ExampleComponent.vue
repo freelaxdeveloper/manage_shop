@@ -95,6 +95,9 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="right-col">
+<!--                                    <div style="width: 100%; text-align: center;">-->
+<!--                                        <img :src="`/images/money/${statusImg}.png`" width="300px"><br>-->
+<!--                                    </div>-->
                                     Общий план: <span v-number_format="responseItems.sumPlan"></span>грн.<br>
                                     Фактический план: <span v-number_format="responseItems.sumCurrent"></span>грн. <small>({{ responseItems.percentCurrent }}%)</small><br>
                                     Прогноз: <span v-number_format="responseItems.sumForecast"></span>грн. <small>({{ responseItems.percentForecast }}%)</small><br>
@@ -167,6 +170,33 @@
         },
         isCurrentDate: function () {
           return this.getMonth === this.currentMonth && this.getYear === this.currentYear;
+        },
+        statusImg: function () {
+          let sumForecast = this.responseItems.percentForecast;
+          console.log(sumForecast)
+
+          if (sumForecast < 15) {
+            return 0;
+          }
+          if (sumForecast < 25) {
+            return 1;
+          }
+          if (sumForecast < 35) {
+            return 1.1;
+          }
+          if (sumForecast < 45) {
+            return 2.2;
+          }
+          if (sumForecast < 50) {
+            return 2;
+          }
+          if (sumForecast < 65) {
+            return 3;
+          }
+          if (sumForecast < 80) {
+            return 4;
+          }
+          return 5;
         }
       },
       watch: {
