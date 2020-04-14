@@ -85,6 +85,7 @@ class PerformanceForecast
     public function getPerformanceAvarageCurrent(): int
     {
         $count = count($this->performance);
+        $count += $this->toDayNumber - $count;
 
         if (!$count) {
             return 0;
@@ -110,11 +111,18 @@ class PerformanceForecast
      */
     public function getPerformanceToDay(): float
     {
-        $performanceToDay = $this->plan / $this->daysInMonth;
+        $performanceToDayAvg = $this->plan / $this->daysInMonth;
+        $performanceToDay = ($this->plan - $this->getPerformanceCurrent()) / ($this->daysInMonth - $this->toDayNumber);
+
+        if ($performanceToDay < $performanceToDayAvg) {
+            $performanceToDay = $performanceToDayAvg;
+        }
 
         if ($performanceToDay < 1) {
             return 1;
         }
+
+
         return $performanceToDay;
     }
 
