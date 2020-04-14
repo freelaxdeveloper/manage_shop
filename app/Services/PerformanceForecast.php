@@ -56,9 +56,9 @@ class PerformanceForecast
     /**
      * Прогнозирование заработанных денег
      *
-     * @return int
+     * @return float
      */
-    public function getForecastMoney(): int
+    public function getForecastMoney(): float
     {
         $current = $this->getPerformanceCurrent();
         $forecast = $this->getPerformanceAvarageCurrent() * ($this->daysInMonth - $this->toDayNumber);
@@ -70,9 +70,9 @@ class PerformanceForecast
     /**
      * Фактическая производитеьность
      *
-     * @return int
+     * @return float
      */
-    public function getPerformanceCurrent(): int
+    public function getPerformanceCurrent(): float
     {
         return array_sum($this->performance);
     }
@@ -80,9 +80,9 @@ class PerformanceForecast
     /**
      * Средняя фактическая производитеьность
      *
-     * @return int
+     * @return float
      */
-    public function getPerformanceAvarageCurrent(): int
+    public function getPerformanceAvarageCurrent(): float
     {
         $count = count($this->performance);
         $count += $this->toDayNumber - $count;
@@ -97,9 +97,9 @@ class PerformanceForecast
     /**
      * Производительность должна быть на данный момент
      *
-     * @return int
+     * @return float
      */
-    public function getPerformanceShouldCurrentMoment(): int
+    public function getPerformanceShouldCurrentMoment(): float
     {
         return $this->toDayNumber * $this->getPerformanceToDay();
     }
