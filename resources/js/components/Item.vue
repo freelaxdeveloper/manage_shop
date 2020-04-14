@@ -32,7 +32,16 @@
                 class="form-control form-control-sm"
                 style="display: inline-block; width: 80px;"
             >
-            <button @click="makeMoney" class="btn btn-primary btn-sm">Добавить</button>
+            <img
+                v-if="money && smile"
+                :src="`/images/smiles/${smile.src}`"
+                :style="`width: ${smile.width}px; float: right;`"
+                alt="smile"
+            >
+            <button
+                @click="makeMoney"
+                class="btn btn-primary btn-sm"
+            >Добавить</button>
             <a href="#" @click.prevent="close" class="btn btn-light">Отмена</a>
         </div><br/>
         <small v-if="item.forecastService">
@@ -96,6 +105,17 @@
       }
     },
     computed: {
+      smile: function () {
+        if (Number(this.money) !== parseFloat(this.money)) {
+          return null;
+        }
+
+        if  (this.money < this.item.forecastService.performanceToDay) {
+          return {src: '0.jpg', width: 75};
+        }
+
+        return {src: '2.gif', width: 105};
+      },
       progressColor: function () {
         if (!this.item.forecastService) {
           return 'bg-primary';
