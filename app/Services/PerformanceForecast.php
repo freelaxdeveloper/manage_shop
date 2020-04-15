@@ -114,7 +114,7 @@ class PerformanceForecast
         $performanceToDayAvg = $this->plan / $this->daysInMonth;
         $performanceToDay = ($this->plan - $this->getPerformanceCurrent()) / ($this->daysInMonth - $this->toDayNumber);
 
-        if ($performanceToDay < $performanceToDayAvg) {
+        if ($this->getPerformanceCurrent() > $this->plan) {
             $performanceToDay = $performanceToDayAvg;
         }
 
