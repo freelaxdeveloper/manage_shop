@@ -12,6 +12,12 @@
         <span v-if="item.forecastService" v-number_format="item.forecastService.plan"></span>
         <span v-else>не указан</span>
         <span v-if="item.forecastService">{{ item.unit }}</span>)
+        <img
+            v-if="show_smile"
+            :src="`/images/smiles/${smile.src}`"
+            :style="`width: ${smile.width}px; float: right; position: absolute;left: 57%;`"
+            alt="smile"
+        >
         <a
             v-if="!show_form && isCurrentDate && item.forecastService"
             href="#"
@@ -31,12 +37,6 @@
                 size="3"
                 class="form-control form-control-sm"
                 style="display: inline-block; width: 80px;"
-            >
-            <img
-                v-if="money && smile"
-                :src="`/images/smiles/${smile.src}`"
-                :style="`width: ${smile.width}px; float: right;`"
-                alt="smile"
             >
             <button
                 @click="makeMoney"
@@ -101,21 +101,49 @@
     data () {
       return {
         show_form: false,
+        show_smile: false,
         money: '',
+        smile: {
+          src: '',
+          width: 60,
+        },
+        smiles: {
+          good: [
+            {src: '1.gif', width: 60},
+            {src: '2.gif', width: 60},
+            {src: '161950406.gif', width: 60},
+            {src: '271980162.gif', width: 60},
+            {src: '858131397.gif', width: 60},
+            {src: '883429311.gif', width: 60},
+          ],
+          bad: [
+            {src: '0.jpg', width: 60},
+            {src: '42786011.gif', width: 60},
+            {src: '229178515.gif', width: 60},
+            {src: '328835943.gif', width: 115},
+            {src: '471769675.png', width: 60},
+            {src: '675057070.gif', width: 60},
+            {src: '718532537.gif', width: 60},
+            {src: '733595102.gif', width: 60},
+            {src: '753043402.gif', width: 60},
+            {src: '784715539.gif', width: 42},
+            {src: '811110244.gif', width: 60},
+            {src: '903437111.gif', width: 60},
+          ]
+        }
+      }
+    },
+    watch: {
+      show_smile: function (val) {
+        if (!val) {
+          return;
+        }
+        setTimeout(() => {
+          this.show_smile = false
+        }, 6000)
       }
     },
     computed: {
-      smile: function () {
-        if (Number(this.money) !== parseFloat(this.money)) {
-          return null;
-        }
-
-        if  (this.money < this.item.forecastService.performanceToDay) {
-          return {src: '0.jpg', width: 75};
-        }
-
-        return {src: '2.gif', width: 105};
-      },
       progressColor: function () {
         if (!this.item.forecastService) {
           return 'bg-primary';
@@ -135,6 +163,10 @@
     },
     methods: {
       makeMoney () {
+        if (!this.show_smile) {
+          this.smile = this.getSmile();
+          this.show_smile = true;
+        }
         axios.post('/api/statistics', {
           category_id: this.item.id,
           count: this.money,
@@ -147,7 +179,25 @@
       close () {
         this.money = '';
         this.show_form = false;
-      }
+      },
+      getSmile () {
+        if (Number(this.money) !== parseFloat(this.money)) {
+          return null;
+        }
+
+        let dir = 'good';
+
+        if  (this.money < this.item.forecastService.performanceToDay) {
+          dir = 'bad';
+        }
+        const smiles = this.smiles[dir];
+        const smile = smiles[Math.floor(Math.random() * smiles.length)];
+
+        return {
+          src: dir + '/' + smile.src,
+          width: smile.width,
+        };
+      },
     }
   }
 </script>
