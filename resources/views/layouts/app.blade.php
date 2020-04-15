@@ -75,6 +75,13 @@
         <main class="py-4">
             @yield('content')
         </main>
+        @if (session()->has('database'))
+            <footer>
+                <div class="test-mode">
+                    Test mode!
+                </div>
+            </footer>
+        @endif
     </div>
 </body>
 </html>

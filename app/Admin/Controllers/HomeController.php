@@ -45,7 +45,7 @@ class HomeController extends Controller
         $site = site()->getSite();
 
         return $content
-            ->header('Выполнение общего плана')
+            ->header('Выполнение общего плана' . (session()->has('database') ? ' (Test mode!)' : ''))
             ->body(new Box("{$site['name']}", view('admin.chartjs', [
                 'datasets' => $data,
                 'title' => $title,

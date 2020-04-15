@@ -6,3 +6,15 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+.test-mode {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    color: black;
+    font-size: 15px;
+    border-radius: 15px;
+    padding: 10px;
+    border: 1px solid #fff;
+    background-color: rgba(52, 144, 220, 0.5);
+}
