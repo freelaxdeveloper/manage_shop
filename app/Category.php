@@ -77,7 +77,7 @@ class Category extends Model
      */
     public function statistics()
     {
-        return $this->hasMany(Statistic::class);
+        return $this->hasMany(Statistic::class)->orderBy('created_at');
     }
 
     /**
