@@ -27,8 +27,23 @@ class StatisticController extends AdminController
      */
     protected function grid()
     {
+        $categories = Category::get()->pluck(Category::NAME, Category::ID);
+
         $grid = new Grid(new Statistic);
         $grid->model()->whereHas('category');
+
+        $grid->filter(function($filter) use ($categories) {
+
+            // Remove the default id filter
+            $filter->disableIdFilter();
+
+            // Add a column filter
+            $filter->in(Statistic::CATEGORY_ID, __('Категория'))->multipleSelect($categories);
+            $filter->date('created_at', __('Дата'));
+
+            $filter->between(Statistic::COUNT, __('Количество'));
+
+        });
 
         $grid->column(Statistic::COUNT, __('Количество'))->editable()->sortable();
         $grid->column('date', __('Дата'))->sortable();

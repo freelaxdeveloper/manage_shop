@@ -7,7 +7,7 @@
                         Прогноз на текущий месяц
                         <div
                             v-if="spinner"
-                            class="spinner-grow text-info"
+                            class="spinner-grow text-warning"
                             style="width: 3rem; height: 3rem; position: absolute;"
                             role="status"
                         >

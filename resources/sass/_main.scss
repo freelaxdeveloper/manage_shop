@@ -1,0 +1,121 @@
+:root {
+    --naval: #1e2b3c;
+    --naval-90: #2c3236;
+    --naval-80: #4b5563;
+    --naval-60: rgba(43, 51, 65, .5);
+    --dark-blue: #1382e5;
+    --blue: #229fff;
+    --blue-80: #4fabfd;
+    --blue-40: #a7d5fe;
+    --blue-mk: #2396fd;
+    --yellow: #fedf3d;
+    --yellow-40: #fff5b2;
+    --kyivstar-home: #cee800;
+    --kyivstar-home-25: #f2f9bf;
+    --secondary-text: #698392;
+    --secondary-text-50: #c9d2da;
+    --darkgray: #43535c;
+    --darkgray-description: #3b4952;
+    --gray-border: #dee0e1;
+    --gray: #748d9c;
+    --lightgray: #f9f9fc;
+    --lightgray-border: #e7e9eb;
+    --support-gray: #f6f7fb;
+    --aluminium: #eef0f6;
+    --aluminium-60: #f6f7fa;
+    --pink: #dd1796;
+    --success: #10b112;
+    --success-15: #dbf4dc;
+    --error: #e2575b;
+    --white: #fff;
+    --white-50: hsla(0, 0%, 100%, .5);
+    --black: #000;
+    --silver: #d8dee0;
+    --gray-pale: #edf1f9;
+    --fz: 16px;
+    --base-lh: 20px;
+    --font-name: "MuseoSans", sans-serif
+}
+
+*,
+:after,
+:before {
+    box-sizing: border-box
+}
+
+
+.logo__dots {
+    transition: transform .3s;
+    fill: #fedf3d;
+    fill: var(--yellow)
+}
+
+.logo:hover {
+    filter: none
+}
+
+.logo:hover .logo__dots--left {
+    transform: translateX(13px)
+}
+
+.logo:hover .logo__dots--right {
+    transform: translateX(-13px)
+}
+
+.logo__letter {
+    fill: #2396fd
+}
+
+
+.pageheader__logo {
+    margin-right: 84px
+}
+
+@media (max-width:968px) {
+    .pageheader {
+        height: 50px;
+        padding: 0 15px
+    }
+    .pageheader__logo svg {
+        width: 100px
+    }
+    .pageheader__logo {
+        margin-right: 35px
+    }
+    .pageheader__app {
+        font-size: 14px
+    }
+}
+
+@media (max-width:600px) {
+    .pageheader {
+        -ms-flex-pack: center;
+        justify-content: center;
+        padding: 10px 15px
+    }
+    .pageheader__logo {
+        margin-right: 0
+    }
+    .pageheader__app {
+        display: none
+    }
+}
+
+
+.logo__letter {
+    fill: #fff;
+}
+.navbar-light .navbar-nav .nav-link {
+    color: #fff;
+    font-size: 15px;
+}
+.navbar-light .navbar-nav .nav-link:hover, .navbar-light .navbar-nav .show>.nav-link {
+    color: #ffed4a;
+}
+.card-header {
+    background-color: rgb(33, 159, 254);
+    color: #fff;
+}
+.text-muted {
+    color: #fff !important;
+}
