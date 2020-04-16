@@ -98,10 +98,28 @@
 <!--                                    <div style="width: 100%; text-align: center;">-->
 <!--                                        <img :src="`/images/money/${statusImg}.png`" width="300px"><br>-->
 <!--                                    </div>-->
-                                    Общий план: <span v-number_format="responseItems.sumPlan"></span>грн.<br>
-                                    Фактический план: <span v-number_format="responseItems.sumCurrent"></span>грн. <small>({{ responseItems.percentCurrent }}%)</small><br>
-                                    Прогноз: <span v-number_format="responseItems.sumForecast"></span>грн. <small>({{ responseItems.percentForecast }}%)</small><br>
-                                    Общий КПД: <span v-number_format="responseItems.sumEfficiency"></span>%<br>
+                                    <ul class="list-group">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Общий план
+                                            <span class="badge badge-light badge-pill"><span v-number_format="responseItems.sumPlan"></span>грн.</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Фактический план
+                                            <span class="badge badge-light badge-pill"><span v-number_format="responseItems.sumCurrent"></span>грн. <small>({{ responseItems.percentCurrent }}%)</small></span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Прогноз
+                                            <span class="badge badge-light badge-pill"><span v-number_format="responseItems.sumForecast"></span>грн. <small>({{ responseItems.percentForecast }}%)</small></span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Общий КПД
+                                            <span class="badge badge-light badge-pill"><span v-number_format="responseItems.sumEfficiency"></span>%</span>
+                                        </li>
+                                    </ul>
+<!--                                    Общий план: <span v-number_format="responseItems.sumPlan"></span>грн.<br>-->
+<!--                                    Фактический план: <span v-number_format="responseItems.sumCurrent"></span>грн. <small>({{ responseItems.percentCurrent }}%)</small><br>-->
+<!--                                    Прогноз: <span v-number_format="responseItems.sumForecast"></span>грн. <small>({{ responseItems.percentForecast }}%)</small><br>-->
+<!--                                    Общий КПД: <span v-number_format="responseItems.sumEfficiency"></span>%<br>-->
                                 </div>
                             </div>
                         </div>
@@ -112,7 +130,14 @@
     </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+    .list-group {
+        border-radius: 15px;
+        li {
+            /*background-color: #219ffe;*/
+            /*color: #fff;*/
+        }
+    }
     .hr-style {
         border : 0;
         height: 1px;
@@ -122,11 +147,7 @@
     .right-col {
         color: rgb(102, 102, 103);
         border: 1px solid #ddd;
-        padding: 13px;
-        border-radius: 10px;
         font-size: 16px;
-        -webkit-box-shadow: 0px 10px 13px -7px #a0a0a0, 5px 5px 15px 5px rgba(0,0,0,0);
-        box-shadow: 0px 10px 13px -7px #a0a0a0, 5px 5px 15px 5px rgba(0,0,0,0);
     }
 </style>
 

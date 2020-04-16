@@ -2,11 +2,12 @@
     <div>
         <div
             class="float-md-right card-subtitle mb-2 text-muted"
-            style="font-size: 15px;"
+            style="font-size: 15px;color: #232323 !important;"
             v-if="item.efficiencyService && item.efficiency"
         >
             Факт. КПД: {{ item.efficiencyService.calculateEfficiency }}%
         </div>
+
         {{ item.name }}
         ( план -
         <span v-if="item.forecastService" v-number_format="item.forecastService.plan"></span>
