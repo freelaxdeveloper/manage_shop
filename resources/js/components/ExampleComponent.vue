@@ -146,7 +146,7 @@
 
     .right-col {
         color: rgb(102, 102, 103);
-        border: 1px solid #ddd;
+        /*border: 1px solid #ddd;*/
         font-size: 16px;
     }
 </style>
