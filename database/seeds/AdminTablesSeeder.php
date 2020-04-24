@@ -25,7 +25,7 @@ class AdminTablesSeeder extends AdminTablesSeederParent
         ]);
 
         Menu::updateOrCreate([
-            'title' => 'Сайты',
+            'title' => 'Магазины',
             'uri' => 'sites',
             'icon' => 'fa-list-alt',
         ]);
