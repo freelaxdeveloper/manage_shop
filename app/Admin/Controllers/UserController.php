@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Site;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -82,10 +83,13 @@ class UserController extends AdminController
      */
     protected function form()
     {
+        $sites = Site::get();
+
         $form = new Form(new User);
 
         $form->text('name', __('Имя'))->required();
         $form->text('email', __('E-mail'))->required();
+        $form->multipleSelect('sites', __('Магазины'))->options($sites->pluck(Site::NAME, Site::ID));
         $form->password('password', __('Пароль'));
 
         $form->footer(function ($footer) {
