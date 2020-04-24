@@ -49,7 +49,7 @@ class AdminTablesSeeder extends AdminTablesSeederParent
         ]);
 
         Menu::updateOrCreate([
-            'title' => 'Пользователи2',
+            'title' => 'Пользователи',
             'uri' => 'users',
             'icon' => 'fa-users',
         ]);
