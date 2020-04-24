@@ -5,13 +5,15 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Site;
+use Auth;
 
 class SiteController extends Controller
 {
     public function index()
     {
-        $sites = Site::get();
+        $user = Auth::user()->load('sites');
+
+        $sites = $user->sites;
 
         return response()->json(compact('sites'));
     }

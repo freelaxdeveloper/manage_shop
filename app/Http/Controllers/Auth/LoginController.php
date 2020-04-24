@@ -49,8 +49,6 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-        site()->set($request->input('site_id'));
-
         if ($request->has('test_mode')) {
             session(['database' => 'alexey_shop2_test']);
         }

@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\User;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
@@ -27,10 +28,13 @@ class SiteController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new Site);
+        $grid->model()->loadMissing('users');
 
         $grid->column('id', __('ID'))->sortable();
         $grid->column('name', __('Имя'))->editable()->sortable();
-//        $grid->column('updated_at', __('Updated at'));
+        $grid->column('users')->display(function () {
+            return implode(', ', $this->users()->pluck('name')->toArray());
+        });
 
         return $grid;
     }
@@ -47,6 +51,23 @@ class SiteController extends AdminController
 
         $show->field('name', __('Название'));
 
+        $show->users('Users', function ($comments) {
+
+            $comments
+                ->disableCreateButton()
+                ->disableActions()
+                ->disableExport();
+
+//            $comments->resource('/admin/users');
+
+//            $comments->id();
+            $comments->name();
+
+            $comments->filter(function ($filter) {
+                $filter->like('name');
+            });
+        });
+
         return $show;
     }
 
@@ -57,9 +78,12 @@ class SiteController extends AdminController
      */
     protected function form()
     {
+        $users = User::get();
+
         $form = new Form(new Site);
 
         $form->text(Site::NAME, __('Имя'))->required();
+        $form->multipleSelect('users')->options($users->pluck('name', 'id'));
 
         $form->footer(function ($footer) {
 

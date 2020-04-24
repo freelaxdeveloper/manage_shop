@@ -15,5 +15,6 @@ Route::group([
     $router->resource('/sites', 'SiteController');
     $router->resource('/statistics', 'StatisticController');
     $router->resource('/plans', 'PlanController');
+    $router->resource('/users', 'UserController');
 
 });

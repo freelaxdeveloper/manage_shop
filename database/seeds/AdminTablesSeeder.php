@@ -48,6 +48,12 @@ class AdminTablesSeeder extends AdminTablesSeederParent
             'icon' => 'fa-list-alt',
         ]);
 
+        Menu::updateOrCreate([
+            'title' => 'Пользователи2',
+            'uri' => 'users',
+            'icon' => 'fa-users',
+        ]);
+
         Menu::where('title', 'Dashboard')->delete();
     }
 }

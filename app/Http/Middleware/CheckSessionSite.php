@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Site;
 use Closure;
+use Auth;
 use Illuminate\Http\Request;
 
 class CheckSessionSite
@@ -18,9 +19,19 @@ class CheckSessionSite
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (!site()->getId()) {
-            if ($site = Site::select(['id'])->first()) {
+        $user = optional(Auth::user())->loadMissing('sites');
+
+        if (!$user) {
+            return $next($request);
+        }
+
+        $site_id = site()->getId();
+        if (!$site_id || !$user->sites()->where(Site::ID, $site_id)->count()) {
+            if ($site = $user->sites()->first()) {
                 site()->set($site->id);
+            } else {
+                Auth::logout();
+                abort(403, 'Ваш список магазинов пуст!');
             }
         }
 

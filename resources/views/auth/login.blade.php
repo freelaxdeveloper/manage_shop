@@ -45,25 +45,25 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="site" class="col-md-4 col-form-label text-md-right">{{ __('Site') }}</label>
+{{--                        <div class="form-group row">--}}
+{{--                            <label for="site" class="col-md-4 col-form-label text-md-right">{{ __('Site') }}</label>--}}
 
-                            <div class="col-md-6">
+{{--                            <div class="col-md-6">--}}
 {{--                                <input id="site" type="text" class="form-control @error('site') is-invalid @enderror" name="site_id" required>--}}
 
-                                <select name="site_id" class="form-control @error('site') is-invalid @enderror">
-                                    @foreach($sites as $site)
-                                        <option value="{{ $site->id }}" @if($site->id == site()->getId()) selected @endif>{{ $site->name }}</option>
-                                    @endforeach
-                                </select>
+{{--                                <select name="site_id" class="form-control @error('site') is-invalid @enderror">--}}
+{{--                                    @foreach($sites as $site)--}}
+{{--                                        <option value="{{ $site->id }}" @if($site->id == site()->getId()) selected @endif>{{ $site->name }}</option>--}}
+{{--                                    @endforeach--}}
+{{--                                </select>--}}
 
-                                @error('site')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+{{--                                @error('site')--}}
+{{--                                    <span class="invalid-feedback" role="alert">--}}
+{{--                                        <strong>{{ $message }}</strong>--}}
+{{--                                    </span>--}}
+{{--                                @enderror--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
 
                         <div class="form-group row">
                             <div class="col-md-3 offset-md-4">
