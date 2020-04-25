@@ -20,7 +20,7 @@
             alt="smile"
         >
         <a
-            v-if="!show_form && isCurrentDate && item.forecastService"
+            v-if="!show_form && isCurrentDate && item.forecastService && is_write"
             href="#"
             @click.prevent="show_form = true"
             class="badge badge-info"
@@ -29,7 +29,7 @@
             +
         </a>
         <div
-            v-else-if="isCurrentDate && item.forecastService"
+            v-else-if="isCurrentDate && item.forecastService && is_write"
             style="margin-bottom: -25px;"
         >
             <input
@@ -97,7 +97,7 @@
   import axios from 'axios'
 
   export default {
-    props: ['item', 'isCurrentDate'],
+    props: ['item', 'isCurrentDate', 'is_write'],
     name: "Item",
     data () {
       return {

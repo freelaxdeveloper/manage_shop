@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Category;
 use App\Http\Controllers\Controller;
 use App\Statistic;
 use Carbon\Carbon;
@@ -20,6 +21,13 @@ class StatisticController extends Controller
         $data = $request->only(
             (new Statistic)->getFillable()
         );
+        $user = \Auth::user()->loadMissing('sites');
+        $category = Category::with('site')->findOrFail($request->input(Statistic::CATEGORY_ID));
+
+        if (!$user->sites()->where('id', optional($category->site)->id)->count()) {
+            abort(403, __('Access denied'));
+        }
+//        dd($category->site->id);
 
         $statistic = Statistic::where(Statistic::CATEGORY_ID, $data[Statistic::CATEGORY_ID])
             ->whereDate('created_at', Carbon::today())

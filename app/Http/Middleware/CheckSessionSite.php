@@ -19,19 +19,9 @@ class CheckSessionSite
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        $user = optional(Auth::user())->loadMissing('sites');
-
-        if (!$user) {
-            return $next($request);
-        }
-
-        $site_id = site()->getId();
-        if (!$site_id || !$user->sites()->where(Site::ID, $site_id)->count()) {
-            if ($site = $user->sites()->first()) {
+        if (!site()->getId()) {
+            if ($site = Site::select(['id'])->first()) {
                 site()->set($site->id);
-            } else {
-                Auth::logout();
-                abort(403, 'Ваш список магазинов пуст!');
             }
         }
 

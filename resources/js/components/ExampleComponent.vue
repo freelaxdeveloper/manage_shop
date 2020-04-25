@@ -88,6 +88,7 @@
                                         <Item
                                             :item="item"
                                             :isCurrentDate="isCurrentDate"
+                                            :is_write="is_write"
                                             @update-items="fetchItems"
                                         />
                                     </div>
@@ -160,6 +161,7 @@
       props: ['subtitle', 'sitename'],
       data () {
         return {
+          is_write: false,
           spinner: false,
           site_id: 0,
           sites: [],
@@ -233,7 +235,8 @@
       },
       methods: {
         changeSite (site_id) {
-          axios.get('/api/sites/change?site_id=' + site_id).then(() => {
+          axios.get('/api/sites/change?site_id=' + site_id).then(response => {
+            this.is_write = response.data.is_write
             this.fetchItems();
           })
         },

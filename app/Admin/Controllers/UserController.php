@@ -74,7 +74,11 @@ class UserController extends AdminController
      */
     public function update($id)
     {
-        request()->merge(['password' => bcrypt(request()->password)]);
+        if ($password = request()->password) {
+            request()->merge(['password' => bcrypt($password)]);
+        } else {
+            request()->offsetUnset('password');
+        }
 
         return $this->form()->update($id);
     }
