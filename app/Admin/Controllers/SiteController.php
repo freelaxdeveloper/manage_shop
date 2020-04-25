@@ -32,9 +32,7 @@ class SiteController extends AdminController
 
         $grid->column('id', __('ID'))->sortable();
         $grid->column('name', __('Имя'))->editable()->sortable();
-        $grid->column('users')->display(function () {
-            return implode(', ', $this->users()->pluck('name')->toArray());
-        });
+        $grid->column('users', __('Пользователи'))->pluck('name')->label();
 
         return $grid;
     }
@@ -51,19 +49,20 @@ class SiteController extends AdminController
 
         $show->field('name', __('Название'));
 
-        $show->users('Users', function ($comments) {
+        $show->users('Users', function ($users) {
 
-            $comments
+            $users
                 ->disableCreateButton()
                 ->disableActions()
                 ->disableExport();
 
-//            $comments->resource('/admin/users');
+//            $users->resource('/admin/users');
 
-//            $comments->id();
-            $comments->name();
+//            $users->id();
+            $users->name();
+            $users->email();
 
-            $comments->filter(function ($filter) {
+            $users->filter(function ($filter) {
                 $filter->like('name');
             });
         });

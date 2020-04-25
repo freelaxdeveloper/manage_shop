@@ -99,10 +99,10 @@
 <!--                                        <img :src="`/images/money/${statusImg}.png`" width="300px"><br>-->
 <!--                                    </div>-->
                                     <ul class="list-group">
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            Общий план
-                                            <span class="badge badge-light badge-pill"><span v-number_format="responseItems.sumPlan"></span>грн.</span>
-                                        </li>
+<!--                                        <li class="list-group-item d-flex justify-content-between align-items-center">-->
+<!--                                            Общий план-->
+<!--                                            <span class="badge badge-light badge-pill"><span v-number_format="responseItems.sumPlan"></span>грн.</span>-->
+<!--                                        </li>-->
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             Фактический план
                                             <span class="badge badge-light badge-pill"><span v-number_format="responseItems.sumCurrent"></span>грн. <small>({{ responseItems.percentCurrent }}%)</small></span>

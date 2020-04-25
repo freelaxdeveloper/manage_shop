@@ -28,8 +28,10 @@ class UserController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new User);
+        $grid->model()->loadMissing('sites');
 
         $grid->column('name', __('Имя'))->editable()->sortable();
+        $grid->column('sites', __('Магазины'))->pluck('name')->label();
 
         return $grid;
     }
@@ -46,6 +48,19 @@ class UserController extends AdminController
 
         $show->field('id', __('ID'));
         $show->field('name', __('Имя'));
+        $show->sites(__('Магазины'), function ($shops) {
+
+            $shops
+                ->disableCreateButton()
+                ->disableActions()
+                ->disableExport();
+
+            $shops->name();
+
+            $shops->filter(function ($filter) {
+                $filter->like('name');
+            });
+        });
 
         return $show;
     }

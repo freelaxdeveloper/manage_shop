@@ -32,7 +32,7 @@ class PlanController extends AdminController
         $grid->column('category.name', __('Категория'));
         $grid->column('count', __('План'))->editable()->sortable();
         $grid->column('month_name', __('Месяц'));
-        $grid->column('year', __('Год'))->editable('year')->sortable();
+        $grid->column('year', __('Год'))->sortable();
 //        $grid->column('updated_at', __('Updated at'));
 
         return $grid;
