@@ -111,8 +111,13 @@ class PerformanceForecast
      */
     public function getPerformanceToDay(): float
     {
+        $daysLeft = $this->daysInMonth - $this->toDayNumber;
+        if ($daysLeft < 1) {
+            $daysLeft = 1;
+        }
+
         $performanceToDayAvg = $this->plan / $this->daysInMonth;
-        $performanceToDay = ($this->plan - $this->getPerformanceCurrent()) / ($this->daysInMonth - $this->toDayNumber);
+        $performanceToDay = ($this->plan - $this->getPerformanceCurrent()) / $daysLeft;
 
         if ($this->getPerformanceCurrent() > $this->plan) {
             $performanceToDay = $performanceToDayAvg;
