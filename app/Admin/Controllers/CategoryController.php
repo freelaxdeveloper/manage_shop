@@ -92,8 +92,7 @@ class CategoryController extends AdminController
             $statistic->disableExport();
 
             $statistic->column('count', 'Количество')->editable();
-            $statistic->column('date');
-            $statistic->column('created_at')->editable('date');
+            $statistic->column('date')->editable('date');
         });
 
         return $show;
