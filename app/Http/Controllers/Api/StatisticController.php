@@ -30,13 +30,14 @@ class StatisticController extends Controller
 //        dd($category->site->id);
 
         $statistic = Statistic::where(Statistic::CATEGORY_ID, $data[Statistic::CATEGORY_ID])
-            ->whereDate('created_at', Carbon::today())
+            ->whereDate('date', Carbon::today())
             ->first();
 
         if ($statistic) {
             $statistic->count = $data[Statistic::COUNT];
             $statistic->save();
         } else {
+            $data[Statistic::DATE] = Carbon::today();
             $statistic = Statistic::create($data);
         }
 

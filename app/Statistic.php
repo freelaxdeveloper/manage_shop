@@ -9,14 +9,16 @@ class Statistic extends Model
     public const ID = 'id';
     public const CATEGORY_ID = 'category_id';
     public const COUNT = 'count';
+    public const DATE = 'date';
 
     protected $fillable = [
         self::CATEGORY_ID,
         self::COUNT,
+        self::DATE,
     ];
 
     protected $appends = [
-        'day', 'date'
+        'day'
     ];
 
     public function category()
@@ -29,8 +31,8 @@ class Statistic extends Model
         return $this->created_at->format('d');
     }
 
-    public function getDateAttribute()
-    {
-        return $this->created_at->isoFormat('MMMM Do YY');
-    }
+//    public function getDateAttribute()
+//    {
+//        return $this->created_at->isoFormat('MMMM Do YY');
+//    }
 }

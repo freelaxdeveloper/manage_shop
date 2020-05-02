@@ -10,6 +10,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Show;
 
 use App\Statistic;
+use Illuminate\Http\Response;
 
 class StatisticController extends AdminController
 {
@@ -39,14 +40,14 @@ class StatisticController extends AdminController
 
             // Add a column filter
             $filter->in(Statistic::CATEGORY_ID, __('Категория'))->multipleSelect($categories);
-            $filter->date('created_at', __('Дата'));
+            $filter->date(Statistic::DATE, __('Дата'));
 
             $filter->between(Statistic::COUNT, __('Количество'));
 
         });
 
         $grid->column(Statistic::COUNT, __('Количество'))->editable()->sortable();
-        $grid->column('date', __('Дата'))->sortable();
+        $grid->column(Statistic::DATE, __('Дата'))->editable('date')->sortable();
         $grid->column('category.name', __('Категория'))->sortable();
 
         return $grid;
@@ -77,18 +78,6 @@ class StatisticController extends AdminController
         return $show;
     }
 
-    public function store()
-    {
-        $data = request()->only(
-            (new Statistic())->getFillable()
-        );
-        $data['created_at'] = request()->input('date');
-
-        $data = [$data];
-
-        Statistic::insert($data);
-    }
-
     /**
      * Make a form builder.
      *
@@ -106,7 +95,6 @@ class StatisticController extends AdminController
             ->required();
         $form->text(Statistic::COUNT, __('Количество'))->required();
         $form->date('date', __('Дата'))->required();
-        $form->date('created_at', __('Дата'));
 
         $form->footer(function ($footer) {
 

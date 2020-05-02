@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -72,12 +73,31 @@ class Category extends Model
         $query->where(self::UNIT, 'грн.');
     }
 
+    public function getStatisticDataAttribute()
+    {
+        $forecastMonth = self::$forecastMonth ?? Carbon::now()->month;
+        $forecastYear = self::$forecastYear ?? Carbon::now()->year;
+
+        $this->loadMissing('statistics');
+
+        return $this->statistics()
+          ->whereMonth('date', $forecastMonth)
+          ->whereYear('date', $forecastYear)
+          ->pluck('count');
+    }
+
     /**
      * @return HasMany
      */
     public function statistics()
     {
-        return $this->hasMany(Statistic::class)->orderBy('created_at');
+        $forecastMonth = self::$forecastMonth ?? Carbon::now()->month;
+        $forecastYear = self::$forecastYear ?? Carbon::now()->year;
+
+        return $this->hasMany(Statistic::class)
+            ->whereMonth('created_at', $forecastMonth)
+            ->whereYear('created_at', $forecastYear)
+            ->orderBy('created_at');
     }
 
     /**

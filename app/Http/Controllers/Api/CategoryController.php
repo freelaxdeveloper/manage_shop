@@ -21,7 +21,11 @@ class CategoryController extends Controller
         Category::$forecastYear = $request->input('year');
 
         $categories = Category::with('plan')->get();
-        $categories->each->setAppends(['forecastService', 'efficiencyService']);
+        $categories->each->setAppends([
+            'forecastService',
+            'efficiencyService',
+            'statisticData',
+        ]);
 
         $planSchedule = PlanSchedule::container($categories)->toArray();
 
