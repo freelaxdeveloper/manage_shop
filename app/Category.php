@@ -89,7 +89,10 @@ class Category extends Model
       return self::$forecastYear ?? Carbon::now()->year;
     }
 
-    public function getStatisticDataAttribute()
+    /**
+     * @return array
+     */
+    public function getStatisticDataAttribute(): array
     {
         $data = [];
         $forecastMonth = self::getMonth();
@@ -105,10 +108,11 @@ class Category extends Model
         $date = now()->setMonth($forecastMonth)->setYear($forecastYear);
 
         for($i = 1; $i <= $date->daysInMonth; $i++) {
-          $key = $i < 10 ? 0 . $i : $i;
-          $month = $forecastMonth < 10 ? 0 . $forecastMonth : $forecastMonth;
+          $day = zeroBeginning($i);
+          $month = zeroBeginning($forecastMonth);
+          $key = "{$forecastYear}-{$month}-{$day}";
 
-          $data[] = $statistics["{$forecastYear}-{$month}-{$key}"] ?? 0;
+          $data[] = $statistics[$key] ?? 0;
         }
 
         return $data;

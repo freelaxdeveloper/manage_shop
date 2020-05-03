@@ -19,23 +19,19 @@
 
                             <div class="col-md-12">
 <!--                              Старый список: <toggle-button v-model="myDataVariable"/>-->
-                              <div style="display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    margin-left: 100px;margin-bottom: 20px;">
+                              <div class="container-statistic">
                                 <statistic
                                   :index="1"
                                   :goal="statistic.sumPlan"
                                   :progress="statistic.sumCurrent"
-                                  :title="`План (${statistic.percentCurrent}%)`"
+                                  :title="`План факт. (${statistic.percentCurrent}%)`"
                                   symbol="грн."
                                 ></statistic>
                                 <statistic
                                   :index="2"
                                   :goal="statistic.sumPlan"
                                   :progress="statistic.sumForecast"
-                                  :title="`Прогноз (${statistic.percentForecast}%)`"
+                                  :title="`Прогноз плана (${statistic.percentForecast}%)`"
                                   symbol="грн."
                                 ></statistic>
 
@@ -43,7 +39,7 @@
                                   :index="3"
                                   :goal="100"
                                   :progress="statistic.sumEfficiency"
-                                  title="КПД"
+                                  title="Общий КПД"
                                   symbol="%"
                                 ></statistic>
                               </div>
@@ -68,8 +64,6 @@
                                                     <hr>
                                                     <div v-if="item.forecastService">
                                                         Рекомендовано: <span v-number_format="item.forecastService.performanceToDay"></span> {{ item.unit }} в день
-                                                        <br>
-                                                        Вес КПД: {{ item.efficiency }}%
                                                     </div>
                                                 </template>
                                             </FlipCard>
@@ -190,6 +184,14 @@
 </script>
 
 <style lang="scss" scoped>
+  .container-statistic {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-left: 100px;margin-bottom: 20px;
+  }
+
   .list-group {
     border-radius: 15px;
     li {

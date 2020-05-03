@@ -128,7 +128,7 @@ button:focus {
 .coin-box{
   position: relative;
   width: 500px;
-  height: 200px;
+  height: 255px;
   background: #fff;
   border: 1px solid rgba(220, 220, 220, 0.58);
   box-shadow: 5px 5px 25px 0 rgba(46,61,73,.16);
@@ -193,6 +193,7 @@ button:focus {
   }
 }
 .sparkline-chart {
+  position: relative;
   height: 94px;
 }
 

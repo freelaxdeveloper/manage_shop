@@ -10,7 +10,7 @@
             <div :class="['amount', 'amount_' + index]"> {{ progress }} </div>
           </div>
         </div>
-        <div style="margin-top: 20px;min-width: 200px;">
+        <div style="margin-top: 20px;min-width: 250px;">
           {{ title }}
         </div>
 
