@@ -94,10 +94,11 @@
 </style>
 
 <script>
+  import { mapGetters } from 'vuex'
   import axios from 'axios'
 
   export default {
-    props: ['item', 'isCurrentDate', 'is_write'],
+    props: ['item', 'is_write'],
     name: "Item",
     data () {
       return {
@@ -145,6 +146,9 @@
       }
     },
     computed: {
+      ...mapGetters([
+        'isCurrentDate'
+      ]),
       progressColor: function () {
         if (!this.item.forecastService) {
           return 'bg-primary';

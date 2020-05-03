@@ -73,17 +73,45 @@ class Category extends Model
         $query->where(self::UNIT, 'грн.');
     }
 
+    /**
+     * @return int
+     */
+    public static function getMonth()
+    {
+      return self::$forecastMonth ?? Carbon::now()->month;
+    }
+
+    /**
+     * @return int
+     */
+    public static function getYear()
+    {
+      return self::$forecastYear ?? Carbon::now()->year;
+    }
+
     public function getStatisticDataAttribute()
     {
-        $forecastMonth = self::$forecastMonth ?? Carbon::now()->month;
-        $forecastYear = self::$forecastYear ?? Carbon::now()->year;
+        $data = [];
+        $forecastMonth = self::getMonth();
+        $forecastYear = self::getYear();
 
         $this->loadMissing('statistics');
 
-        return $this->statistics()
+        $statistics = $this->statistics()
           ->whereMonth('date', $forecastMonth)
           ->whereYear('date', $forecastYear)
-          ->pluck('count');
+          ->pluck('count', 'date')->toArray();
+
+        $date = now()->setMonth($forecastMonth)->setYear($forecastYear);
+
+        for($i = 1; $i <= $date->daysInMonth; $i++) {
+          $key = $i < 10 ? 0 . $i : $i;
+          $month = $forecastMonth < 10 ? 0 . $forecastMonth : $forecastMonth;
+
+          $data[] = $statistics["{$forecastYear}-{$month}-{$key}"] ?? 0;
+        }
+
+        return $data;
     }
 
     /**
@@ -91,13 +119,7 @@ class Category extends Model
      */
     public function statistics()
     {
-        $forecastMonth = self::$forecastMonth ?? Carbon::now()->month;
-        $forecastYear = self::$forecastYear ?? Carbon::now()->year;
-
-        return $this->hasMany(Statistic::class)
-            ->whereMonth('created_at', $forecastMonth)
-            ->whereYear('created_at', $forecastYear)
-            ->orderBy('created_at');
+        return $this->hasMany(Statistic::class)->latest()->orderBy('created_at');
     }
 
     /**

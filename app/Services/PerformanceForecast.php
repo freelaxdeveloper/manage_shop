@@ -143,7 +143,7 @@ class PerformanceForecast
         $forecastYear = $forecastYear ?? Carbon::now()->year;
 
         $category->loadMissing(['statistics' => function ($query) use ($forecastMonth, $forecastYear) {
-            $query->whereMonth('created_at', $forecastMonth)->whereYear('created_at', $forecastYear);
+            $query->whereMonth('date', $forecastMonth)->whereYear('date', $forecastYear);
         }]);
 
         $plan = $category->plan()
